@@ -4,31 +4,40 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Hidden from '@material-ui/core/Hidden';
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Link } from 'react-router-dom';
+import Checkout from './Checkout'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(1),
+  },
   card: {
     display: 'flex',
+    width:'auto',
+    
   },
   cardDetails: {
     flex: 1,
   },
   cardMedia: {
-    width: 160,
+    display:'block',
+    width: '40%',
+    margin:'3%',
   },
-});
+}));
 
 export default function ProductPost(props) {
   const classes = useStyles();
   const { post } = props;
 
   return (
-    <Grid item xs={12} md={6}>
-      <CardActionArea component="a" href="#">
+    <Grid >
         <Card className={classes.card}>
+            <CardMedia className={classes.cardMedia} image={post.image} title={post.imageTitle} />
           <div className={classes.cardDetails}>
             <CardContent>
               <Typography component="h2" variant="h5">
@@ -41,15 +50,31 @@ export default function ProductPost(props) {
                 {post.description}
               </Typography>
               <Typography variant="subtitle1" color="primary">
-                Continue reading...
+              <div>
+
+      <Button
+        variant="contained"
+        color="secondary"
+        className={classes.button}
+        startIcon={<DeleteIcon />}
+      ><Link to='/Checkout'> 購買</Link>
+       
+      </Button>
+
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+      >
+        加入購物車
+      </Button>
+
+    </div>
               </Typography>
             </CardContent>
           </div>
-          <Hidden xsDown>
-            <CardMedia className={classes.cardMedia} image={post.image} title={post.imageTitle} />
-          </Hidden>
+
         </Card>
-      </CardActionArea>
     </Grid>
   );
 }
@@ -57,3 +82,8 @@ export default function ProductPost(props) {
 ProductPost.propTypes = {
   post: PropTypes.object,
 };
+
+
+
+
+

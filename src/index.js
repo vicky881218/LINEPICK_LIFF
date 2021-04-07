@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import SingleProduct from './SingleProduct';
+import Checkout from './Checkout';
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+        <Switch>
+            <Route exact path="/" component={App}/>
+            <Route path="/Checkout" component={Checkout}/>
+            </Switch>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

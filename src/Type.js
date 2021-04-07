@@ -46,7 +46,6 @@ import LinePickPhoto from './LinePickPhoto';
   
   export default function Type() {
 
-    console.log("here")
     return (
       <React.Fragment>
         <CssBaseline />

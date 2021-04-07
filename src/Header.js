@@ -45,7 +45,7 @@ export default function Header(props) {
           noWrap
           className={classes.toolbarTitle}
         >
-          {title}
+          <Button>Line Pick</Button>
         </Typography>
         <IconButton>
           <SearchIcon />
