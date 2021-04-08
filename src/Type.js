@@ -5,9 +5,9 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import Header from './Header';
 import Footer from './Footer';
-import Try from './Try';
+import ProductPost from './ProductPost';
+
 import LinePickPhoto from './LinePickPhoto';
-//import ProductPost from './ProductPost';
 
   
   const sections = [
@@ -16,19 +16,23 @@ import LinePickPhoto from './LinePickPhoto';
     { title: '日韓眼妝', url: '#' },
   ];
   
-  const tryPost = [
+  const productPosts = [
     {
-      title:"Shrimp and ",
-      image: 'https://source.unsplash.com/random',
+      title: 'Featured post',
+      date: 'Nov 12',
       description:
-        'This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.',      
+        'This is a wider card with supporting text below as a natural lead-in to additional content.',
+      image: 'https://source.unsplash.com/random',
+      imageText: 'Image Text',
     },
     {
-      title:"Shrimp and hi",
-      image: 'https://source.unsplash.com/random',
+      title: 'Post title',
+      date: 'Nov 11',
       description:
-        'This impressive paella is  a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.',      
-    }
+        'This is a wider card with supporting text below as a natural lead-in to additional content.',
+      image: 'https://miro.medium.com/max/2560/1*ibFFdpwZYeDfIQ8tm0ss-A.jpeg',
+      imageText: 'Image Text',
+    },
   ];
 
   const linePickPhoto = {
@@ -42,7 +46,6 @@ import LinePickPhoto from './LinePickPhoto';
   
   export default function Type() {
 
-    console.log("here")
     return (
       <React.Fragment>
         <CssBaseline />
@@ -50,9 +53,9 @@ import LinePickPhoto from './LinePickPhoto';
         <Header title="Line Pick" sections={sections}/>
         <main>
           <LinePickPhoto post={linePickPhoto} />
-           <Grid container spacing={1}>
-            {tryPost.map((post) => (
-              <Try key={post.title} post={post} />
+           <Grid container spacing={4}>
+            {productPosts.map((post) => (
+              <ProductPost key={post.title} post={post} />
             ))}
           </Grid>
         </main>

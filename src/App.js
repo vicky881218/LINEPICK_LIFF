@@ -1,19 +1,18 @@
 // import logo from './logo.svg';
 // import './App.css';
-
+import {Route, Switch} from 'react-router-dom';
 //import Header from './Header';
-import Type from './Type';
-import Try from './Try';
+import SingleProduct from './SingleProduct';
+import Checkout from './Checkout';
+//import Type from './Type';
 //import Footer from './Footer';
-import ProductPost from './ProductPost'
-import ProductList from './ProductList'
+//import Checkout from './Checkout';
+
 function App() {
   return (
-    <div >
-      <header>
-        <Type/>        
-      </header>
-    </div>
+
+    <SingleProduct/>
+
   );
 }
 
