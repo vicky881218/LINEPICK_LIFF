@@ -4,26 +4,32 @@ import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from '@material-ui/icons/ShoppingCart';
+import ListIcon from '@material-ui/icons/ListAltOutlined';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-
+import green from '@material-ui/core/colors/green';
 const useStyles = makeStyles((theme) => ({
     //header
   toolbar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
+    backgroundColor:green[100]
   },
   toolbarTitle: {
     flex: 1,
+    color:green[700]
   },
   toolbarSecondary: {
     justifyContent: 'space-between',
     overflowX: 'auto',
+    backgroundColor:green[50]
   },
   toolbarLink: {
     padding: theme.spacing(1),
     flexShrink: 0,
   },
+
+  
 
   
 }));
@@ -36,23 +42,22 @@ export default function Header(props) {
   return (
     <React.Fragment>
       <Toolbar className={classes.toolbar}>
-        <Button size="small">Subscribe</Button>
+        <IconButton size="small"><ListIcon />購買資訊</IconButton>
+        <Link className={classes.toolbarTitle} >
         <Typography
+          
           component="h2"
           variant="h5"
-          color="inherit"
           align="center"
           noWrap
-          className={classes.toolbarTitle}
+          
         >
           {title}
-        </Typography>
-        <IconButton>
-          <SearchIcon />
+        </Typography></Link>
+        <IconButton size="small" >
+          <SearchIcon />賴皮願望
         </IconButton>
-        <Button variant="outlined" size="small">
-          賴皮願望
-        </Button>
+        
       </Toolbar>
       <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
         {sections.map((section) => (
