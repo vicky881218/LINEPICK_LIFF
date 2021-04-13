@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect}from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
@@ -60,29 +60,15 @@ export default function Checkout() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
 
-  // const [buyerInformations, setBuyerInformations] = useState([]);
-  // const [buyerInformation, setBuyerInformation] = useState();
-  // useEffect(() => {
 
-  //   async function fetchData () {
-      
-  //     console.log ("buyerId:"+id);
-  //     const result = await axios.get('/Checkout/'+id);
-  //     console.log ("result:"+result.data);
-  //     console.log(result.data);
-  //     setBuyerInformations(result.data);
-      
-      
-  //   }
-  //   fetchData();
-  // },[]);
+  // const [buyerInformation, setBuyerInformation] = useState();
 
   const setBuyerInfo = (buyerInfo)=> {
     console.log("update");
     console.log(buyerInfo);
     setActiveStep(activeStep + 1);
   }
-  
+
   function getStepContent(step) {
     switch (step) {
       case 0:
@@ -96,8 +82,6 @@ export default function Checkout() {
     }
   }
   
-  
-
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
