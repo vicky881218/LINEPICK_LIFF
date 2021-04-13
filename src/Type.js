@@ -1,67 +1,120 @@
 import React from 'react';
-//import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-import Header from './Header';
-import Footer from './Footer';
-import ProductPost from './ProductPost';
-
 import LinePickPhoto from './LinePickPhoto';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
-  
-  const sections = [
-    { title: '日韓食品', url: '#' },
-    { title: '日韓唇彩', url: '#' },
-    { title: '日韓眼妝', url: '#' },
-  ];
-  
-  const productPosts = [
-    {
-      title: 'Featured post',
-      date: 'Nov 12',
-      description:
-        'This is a wider card with supporting text below as a natural lead-in to additional content.',
-      image: 'https://source.unsplash.com/random',
-      imageText: 'Image Text',
-    },
-    {
-      title: 'Post title',
-      date: 'Nov 11',
-      description:
-        'This is a wider card with supporting text below as a natural lead-in to additional content.',
-      image: 'https://miro.medium.com/max/2560/1*ibFFdpwZYeDfIQ8tm0ss-A.jpeg',
-      imageText: 'Image Text',
-    },
-  ];
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    padding: 15,
+  },
+  card: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+  },
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  cardButton: {
+    color: '#8C7599',
+    fontWeight: "bold",
+    fontSize: 20,
+    textDecoration: "underline",
+  },
+  visit: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+}));
 
-  const linePickPhoto = {
-    title: 'Title of a longer featured blog post',
-    description:
-      "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
-    image: 'https://source.unsplash.com/random',
-    imgText: 'main image description',
-    linkText: 'Continue reading…',
-  };
-  
-  export default function Type() {
 
-    console.log("here")
-    return (
-      <React.Fragment>
-        <CssBaseline />
-        <Container maxWidth="lg">
-        <Header title="Line Pick" sections={sections}/>
-        <main>
-          <LinePickPhoto post={linePickPhoto} />
-           <Grid container spacing={4}>
+const productPosts = [
+  {
+    product_photo: 'https://source.unsplash.com/random',
+    product_name: '白色戀人巧克力 ',
+    product_price: '750',
+  },
+  {
+    product_photo: 'https://source.unsplash.com/random',
+    product_name: '白色戀人巧克力 ',
+    product_price: '750',
+  },
+  {
+    product_photo: 'https://source.unsplash.com/random',
+    product_name: '白色戀人巧克力 ',
+    product_price: '750',
+  },
+  {
+    product_photo: 'https://source.unsplash.com/random',
+    product_name: '白色戀人巧克力 ',
+    product_price: '750',
+  },
+  {
+    product_photo: 'https://source.unsplash.com/random',
+    product_name: '白色戀人巧克力 ',
+    product_price: '750',
+  },
+];
+
+const linePickPhoto = {
+  image: 'https://source.unsplash.com/random',
+};
+
+export default function Type() {
+
+  const classes = useStyles();
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <Container className={classes.root}>
+        <body>
+          <Grid container spacing={5} >
             {productPosts.map((post) => (
-              <ProductPost key={post.title} post={post} />
+              <Grid item key={post} xs={12} sm={6} md={4}>
+                <Card className={classes.card}>
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={post.product_photo}
+                    title={post.product_name}
+                  />
+                  <CardContent className={classes.cardContent}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {post.product_name}
+                    </Typography>
+                    <Typography>
+                      {<span>價格: {post.product_price} 元</span>}
+                    </Typography>
+                  </CardContent>
+                  <CardActions className={classes.visit}>
+                      <Button className={classes.cardButton}>
+                        <VisibilityIcon />
+                           Pick
+                      </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
             ))}
           </Grid>
-        </main>
-        </Container>
-        <Footer title="Footer" description="Something here to give the footer a purpose!" />
-      </React.Fragment>
-    );
-  }
+        </body>
+      </Container>
+    </React.Fragment>
+  );
+}
