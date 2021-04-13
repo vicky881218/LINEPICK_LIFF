@@ -53,22 +53,51 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ['填寫購買人資訊', '選擇付款方式', '完整訂單明細'];
 const sections = [];
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <AddressForm />;
-    case 1:
-      return <PaymentForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
+//function setBuyerInfo(buyerInfo){}
+
 
 export default function Checkout() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+
+  // const [buyerInformations, setBuyerInformations] = useState([]);
+  // const [buyerInformation, setBuyerInformation] = useState();
+  // useEffect(() => {
+
+  //   async function fetchData () {
+      
+  //     console.log ("buyerId:"+id);
+  //     const result = await axios.get('/Checkout/'+id);
+  //     console.log ("result:"+result.data);
+  //     console.log(result.data);
+  //     setBuyerInformations(result.data);
+      
+      
+  //   }
+  //   fetchData();
+  // },[]);
+
+  const setBuyerInfo = (buyerInfo)=> {
+    console.log("update");
+    console.log(buyerInfo);
+    setActiveStep(activeStep + 1);
+  }
+  
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <AddressForm update={setBuyerInfo}/>;
+      case 1:
+        return <PaymentForm />;
+      case 2:
+        return <Review />;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
+  
+  
+
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);

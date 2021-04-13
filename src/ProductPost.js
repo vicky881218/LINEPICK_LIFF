@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     display: 'flex',
     width:'auto',
+    height: 500
     
   },
   cardDetails: {
@@ -33,21 +34,21 @@ const useStyles = makeStyles((theme) => ({
 export default function ProductPost(props) {
   const classes = useStyles();
   const { post } = props;
-
+  console.log ("in productPost:");
   return (
-    <Grid >
+    <Grid>
         <Card className={classes.card}>
-            <CardMedia className={classes.cardMedia} image={post.image} title={post.imageTitle} />
+            <CardMedia className={classes.cardMedia} image={post.productPhoto} />
           <div className={classes.cardDetails}>
             <CardContent>
               <Typography component="h2" variant="h5">
-                {post.title}
+                {post.productName}
               </Typography>
-              <Typography variant="subtitle1" color="textSecondary">
+              {/* <Typography variant="subtitle1" color="textSecondary">
                 {post.date}
-              </Typography>
+              </Typography> */}
               <Typography variant="subtitle1" paragraph>
-                {post.description}
+                {post.productDesc}
               </Typography>
               <Typography variant="subtitle1" color="primary">
               <div>

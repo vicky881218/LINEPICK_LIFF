@@ -13,7 +13,8 @@ ReactDOM.render(
     <BrowserRouter>
         <Switch>
             <Route exact path="/" component={App}/>
-            <Route path="/Checkout" component={Checkout}/>
+            <Route path="/SingleProduct" component={SingleProduct}/>
+            <Route path="/Checkout/:id" component={Checkout}/>
             </Switch>
     </BrowserRouter>
   </React.StrictMode>,
