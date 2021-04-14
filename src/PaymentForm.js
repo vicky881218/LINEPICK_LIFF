@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 18,
     textDecoration: "underline",
     marginBottom: 15,
+    marginTop: 10,
   },
 }));
 
@@ -30,21 +31,46 @@ const paymentPosts = [
 
 export default function PaymentForm() {
   const classes = useStyles();
+  const [valuePayment, setValuePayment] = React.useState('Line Pay');
+  const handleChangePayment = (event) => {
+    setValuePayment(event.target.value);
+  };
+  const [valueCoupon, setValueCoupon] = React.useState('use');
+  const handleChangeCoupon = (event) => {
+    setValueCoupon(event.target.value);
+  };
+
   return (
     <React.Fragment>
-      <Typography className={classes.title}>
-        選擇付款方式
-      </Typography>
       <CssBaseline />
-      <main>
-        <FormControl component="fieldset">
-          <RadioGroup aria-label="payment">
-          {paymentPosts.map((post) => (
-            <FormControlLabel value={post.title} control={<Radio color="primary"/>} label={post.title} />
-            ))}
-          </RadioGroup>
-        </FormControl>
-      </main>
+      <div>
+        <Typography className={classes.title}>
+          選擇付款方式
+      </Typography>
+        <main>
+          <FormControl component="fieldset">
+            <RadioGroup aria-label="payment" value={valuePayment} onChange={handleChangePayment}>
+              {paymentPosts.map((post) => (
+                <FormControlLabel value={post.title} control={<Radio color="primary" />} label={post.title} />
+              ))}
+            </RadioGroup>
+          </FormControl>
+        </main>
+      </div>
+      <div>
+        <Typography className={classes.title}>
+          使用購物金折抵
+        </Typography>
+        <Typography>可折抵金額:</Typography>
+        <main>
+          <FormControl component="fieldset">
+            <RadioGroup aria-label="coupon" value={valueCoupon} onChange={handleChangeCoupon}>
+                <FormControlLabel value="use" control={<Radio color="primary" />} label="是" />
+                <FormControlLabel value="unuse" control={<Radio color="primary" />} label="否" />
+            </RadioGroup>
+          </FormControl>
+        </main>
+      </div>
     </React.Fragment>
   );
 }

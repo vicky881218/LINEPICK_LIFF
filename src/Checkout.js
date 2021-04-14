@@ -57,11 +57,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
   },
-
-
+  mainButton: {
+    fontSize: 16,
+    textDecoration: "underline",
+    color: "#8C7599",
+  },
 }));
 
-const steps = ['基本資訊', '選擇付款方式', '訂單明細'];
+const steps = ['基本資訊', '付款資訊', '訂單明細'];
 const sections = [];
 function getStepContent(step) {
   switch (step) {
@@ -110,6 +113,11 @@ export default function Checkout() {
               <React.Fragment>
                 <Typography variant="h6" gutterBottom align="center" className={classes.title}>
                   Line Pick 感謝您的購買
+                </Typography>
+                <Typography variant="h6" gutterBottom align="center" className={classes.title}>
+                  <Button variant="text" className={classes.mainButton}>
+                    回首頁
+                </Button>
                 </Typography>
               </React.Fragment>
             ) : (

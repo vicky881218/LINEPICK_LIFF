@@ -1,15 +1,60 @@
 import React from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import DescriptionIcon from '@material-ui/icons/Description';
+import StarIcon from '@material-ui/icons/Star';
+
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   icon: {
+    color: "#8C7599",
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  hide: {
+    display: 'none',
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: drawerWidth,
+    backgroundColor: "#f9e7d2",
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'space-around',
+  },
+  drawerHeaderFont: {
+    color: "#77773c",
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  drawerFont: {
     color: "#8C7599",
   },
   toolbar: {
@@ -22,20 +67,21 @@ const useStyles = makeStyles((theme) => ({
   toolbarLeft: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
   },
   toolbarTitle: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'center',
     color: "#77773c",
     fontWeight: "bold",
     fontSize: 25,
   },
   toolbarRight: {
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  buttonSecondaryFont: {
+    fontSize: 5,
   },
   toolbarSecondary: {
     justifyContent: 'space-between',
@@ -53,15 +99,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header(props) {
   const classes = useStyles();
+  const theme = useTheme();
   const { sections, title } = props;
+  const [open, setOpen] = React.useState(false);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   return (
     <React.Fragment>
       <Toolbar className={classes.toolbar}>
         <div className={classes.toolbarLeft}>
-          <Button >
-            <ShoppingCartIcon fontSize="large" className={classes.icon} />
-          </Button>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, open && classes.hide)}
+          >
+            <MenuIcon fontSize="large" className={classes.icon} />
+          </IconButton>
         </div>
         <div className={classes.toolbarTitle}>
           <Typography
@@ -77,8 +137,9 @@ export default function Header(props) {
         </div>
         <div className={classes.toolbarRight}>
           <Button>
-            <AssignmentIndIcon fontSize="large" className={classes.icon}/>
+            <ShoppingCartIcon fontSize="medium" className={classes.icon} />
           </Button>
+          <div className={classes.buttonSecondaryFont}>賴皮指數: 點</div>
         </div>
       </Toolbar>
       <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
@@ -95,6 +156,37 @@ export default function Header(props) {
           </Link>
         ))}
       </Toolbar>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <div className={classes.drawerHeaderFont}>Line Pick</div>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+        </div>
+        <Divider />
+        <List >
+          <ListItem>
+            <ListItemIcon><SupervisedUserCircleIcon fontSize="medium" className={classes.drawerFont}/></ListItemIcon>
+            <ListItemText className={classes.drawerFont}>購買資訊</ListItemText>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon><StarIcon fontSize="medium" className={classes.drawerFont}/></ListItemIcon>
+            <ListItemText className={classes.drawerFont}>賴皮指數</ListItemText>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon><DescriptionIcon fontSize="medium" className={classes.drawerFont}/></ListItemIcon>
+            <ListItemText className={classes.drawerFont}>賴皮紀錄</ListItemText>
+          </ListItem>
+        </List>
+      </Drawer>
     </React.Fragment>
   );
 }

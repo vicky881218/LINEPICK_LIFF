@@ -25,12 +25,12 @@ function App() {
     <div >
       <Header title="Line Pick" sections={sections} />
       {/* <Type />  */}
-      <Cart />
-      {/* <Checkout/>  */}
+      {/* <Cart /> */}
+       <Checkout/> 
       {/* <Inputinfo/> */}
       {/* <ChangeInfo /> */}
-      {/* <BuyerInfo /> */}
-      {/* <ProductsInfo /> */}
+       {/* <BuyerInfo />  */}
+      {/* <ProductsInfo />  */}
 
       <Footer title="Line Pick" description="Wish you a wonderful day !" />
     </div>
