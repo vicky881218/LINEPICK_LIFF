@@ -47,7 +47,7 @@ export default function ProductPost(props) {
               {/* <Typography variant="subtitle1" color="textSecondary">
                 {post.date}
               </Typography> */} 
-              <Typography variant="subtitle1" paragraph>
+              <Typography variant="subtitle1" paragraph> 
                 {post.productDesc}
               </Typography>
               <Typography variant="subtitle1" color="primary">
