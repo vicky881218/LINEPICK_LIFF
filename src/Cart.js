@@ -188,7 +188,7 @@ export default function Cart() {
                 <div className={classes.submit}>
                     <Button size="medium" className={classes.total}>
                         <AttachMoneyIcon />
-                    總額:{ }元
+                    總金額:{ }元
                 </Button>
                 </div>
                 <Divider className={classes.divider} />

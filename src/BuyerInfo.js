@@ -77,7 +77,7 @@ export default function BuyerInfo() {
                     </Avatar>
                     <Typography className={classes.title}>
                         您的購買資訊
-                            </Typography>
+                    </Typography>
                     <form className={classes.form} noValidate>
                         <div className={classes.changeInfo}>
                             <Typography className={classes.change}>

@@ -1,4 +1,3 @@
-import { makeStyles } from '@material-ui/core/styles';
 import Header from './Header';
 import Footer from './Footer';
 import Type from './Type';
@@ -8,10 +7,8 @@ import Inputinfo from './InputInfo';
 import ChangeInfo from './ChangeInfo';
 import BuyerInfo from './BuyerInfo';
 import ProductsInfo from './ProductsInfo';
-
-const useStyles = makeStyles((theme) => ({
-  
-}));
+import Record from './Record';
+import Pickpoint from './Pickpoint';
 
 const sections = [
   { title: '零食', url: '#' },
@@ -20,17 +17,18 @@ const sections = [
 ];
 
 function App() {
-  const classes = useStyles();
   return (
     <div >
       <Header title="Line Pick" sections={sections} />
-      {/* <Type />  */}
-      {/* <Cart /> */}
-       <Checkout/> 
-      {/* <Inputinfo/> */}
+       {/* <Type />  */}
+       {/* <Cart /> */}
+      {/* <Checkout/>   */}
+      {/* <Inputinfo/> */} 
       {/* <ChangeInfo /> */}
        {/* <BuyerInfo />  */}
-      {/* <ProductsInfo />  */}
+       {/* <ProductsInfo />   */}
+       {/* <Record />  */}
+       <Pickpoint />
 
       <Footer title="Line Pick" description="Wish you a wonderful day !" />
     </div>
