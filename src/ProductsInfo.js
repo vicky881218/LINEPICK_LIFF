@@ -156,7 +156,7 @@ export default function ProductsInfo() {
         <React.Fragment>
             <CssBaseline />
             <Container className={classes.root}>
-                <Grid className={classes.grid} item xs={12}>
+                <Grid className={classes.grid}>
                     {productPosts.map((post) => (
                         <Grid item key={post} item xs={12}>
                             <div className={classes.productTitle}>
@@ -215,21 +215,21 @@ export default function ProductsInfo() {
                                     </div>
                                 </Card>
                             </Slide>
-                            <Grid className={classes.productPhoto} item xs={12}>
-                                {productItemPosts.map((item) => (
-                                    <GridList cellHeight={180} className={classes.gridList}>
-                                        <GridListTile key={item} className={classes.gridListItem}>
-                                            <img src={item.product_photo} alt={item.product_photo} />
-                                            <GridListTileBar
-                                                title={item.product_style}
-                                                subtitle={<span>售價: {item.product_price}元</span>}
-                                            />
-                                        </GridListTile>
-                                    </GridList>
-                                ))}
-                            </Grid>
                         </Grid>
                     ))}
+                    <Grid className={classes.productPhoto} item xs={12}>
+                        {productItemPosts.map((item) => (
+                            <GridList cellHeight={200} className={classes.gridList}>
+                                <GridListTile key={item} className={classes.gridListItem}>
+                                    <img src={item.product_photo} alt={item.product_photo} />
+                                    <GridListTileBar
+                                        title={item.product_style}
+                                        subtitle={<span>售價: {item.product_price}元</span>}
+                                    />
+                                </GridListTile>
+                            </GridList>
+                        ))}
+                    </Grid>
                 </Grid>
             </Container>
         </React.Fragment>
