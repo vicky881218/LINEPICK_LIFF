@@ -166,7 +166,7 @@ export default function Header(props) {
         }}
       >
         <div className={classes.drawerHeader}>
-          <div className={classes.drawerHeaderFont}>Line Pick</div>
+          <div className={classes.drawerHeaderFont}>LINE PICK</div>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>

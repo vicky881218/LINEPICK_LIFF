@@ -16,7 +16,6 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -30,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
     },
     divider: {
         marginBottom: 10,
+    },
+    subtitle: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
     },
     body: {
         display: 'flex',
@@ -48,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '100%',
-        marginTop: theme.spacing(2),
+        marginTop: theme.spacing(1),
     },
     itemText: {
         fontSize: 18,
@@ -65,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
     heading: {
         fontSize: 15,
         color: "#6b7f94",
+    },
+    info: {
+        marginBottom: 10,
     },
 }));
 
@@ -83,16 +90,17 @@ export default function Pickpoint() {
                     賴皮指數
                 </div>
                 <Divider className={classes.divider} />
+                <Typography className={classes.subtitle}>收集賴皮指數來兌換購物金吧!</Typography>
                 <form className={classes.form} noValidate>
                     <List>
                         <ListItem alignItems="flex-start">
                             <ListItemText>
-                                <div className={classes.itemText}>您的賴皮指數: </div>
+                                <div className={classes.itemText}>您的賴皮指數: 點</div>
                             </ListItemText>
                         </ListItem>
                         <ListItem alignItems="flex-start">
                             <ListItemText >
-                                <div className={classes.itemText}>您的賴皮購物金: </div>
+                                <div className={classes.itemText}>您的賴皮購物金: 元</div>
                             </ListItemText>
                         </ListItem>
                     </List>
@@ -124,9 +132,13 @@ export default function Pickpoint() {
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
-                    <Alert severity="info">
+                    <Alert severity="info" className={classes.info}>
                         <AlertTitle>賴皮購物金兌換規則:</AlertTitle>
                         <strong>100點賴皮指數可兌換10元購物金，消費金額每滿100可使用10元購物金</strong>
+                    </Alert>
+                    <Alert severity="info">
+                        <AlertTitle>如何收集賴皮指數?</AlertTitle>
+                        <strong>消費金額每滿100元，即可獲得10點賴皮點數</strong>
                     </Alert>
                 </form>
             </div>

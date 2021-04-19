@@ -131,7 +131,7 @@ const StyledMenuItem = withStyles((theme) => ({
     },
 }))(MenuItem);
 
-const orderlist = [{ id: '1' }, { id: '2' }];
+const orderlist = [{ id: '1', date:'3/1' }, { id: '2', date:'4/7' }];
 const products = [
     { name: '白色戀人巧克力', style: '黑巧克力(24入)', photo: 'https://source.unsplash.com/random', quantity: 1, price: '700' },
     { name: '韓國星巴克櫻花杯', style: '雙層玻璃杯', photo: 'https://source.unsplash.com/random', quantity: 1, price: '780' },
@@ -139,6 +139,7 @@ const products = [
 const payments = [
     { name: '付款方式', detail: 'Line Pay' },
     { name: '使用購物金', detail: '100' },
+    { name: '獲得賴皮指數', detail: '14' },
 ];
 
 export default function Record() {
@@ -230,10 +231,10 @@ export default function Record() {
                                                     {<span>訂單編號: {post.id}</span>}
                                                 </Typography>
                                                 <Typography variant="subtitle1" >
-                                                    {<span>購買日期: </span>}
+                                                    {<span>購買日期: {post.date}</span>}
                                                 </Typography>
                                                 <Typography variant="subtitle1">
-                                                    {<span>總金額: 元</span>}
+                                                    {<span>總金額: 780 元</span>}
                                                 </Typography>
                                                 <div>
                                                     <Button variant="text" size="small" className={classes.buyButton} onClick={handleClickOpen}>

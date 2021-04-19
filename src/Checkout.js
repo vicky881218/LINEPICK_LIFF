@@ -23,6 +23,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 22,
     marginBottom: 10,
   },
+  subtitle: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    fontSize: 15,
+    marginBottom: 10,
+  },
   appBar: {
     position: 'relative',
   },
@@ -112,7 +119,10 @@ export default function Checkout() {
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h6" gutterBottom align="center" className={classes.title}>
-                  Line Pick 感謝您的購買
+                  LINE PICK 感謝您的購買
+                </Typography>
+                <Typography variant="h6" gutterBottom align="center" className={classes.subtitle}>
+                  此筆訂單可獲得的賴皮指數: 14 點
                 </Typography>
                 <Typography variant="h6" gutterBottom align="center" className={classes.title}>
                   <Button variant="text" className={classes.mainButton}>

@@ -12,8 +12,12 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     fontSize: 18,
     textDecoration: "underline",
-    marginBottom: 15,
-    marginTop: 10,
+    marginBottom: 10,
+    marginTop: 15,
+  },
+  money: {
+    color: '#6b7f94',
+    marginBottom: 5,
   },
 }));
 
@@ -61,12 +65,13 @@ export default function PaymentForm() {
         <Typography className={classes.title}>
           使用購物金折抵
         </Typography>
-        <Typography>可折抵金額:</Typography>
+        <Typography className={classes.money}>您的賴皮購物金: 130 元</Typography>
+        <Typography>此筆訂單可折抵金額: 14 元</Typography>
         <main>
           <FormControl component="fieldset">
             <RadioGroup aria-label="coupon" value={valueCoupon} onChange={handleChangeCoupon}>
-                <FormControlLabel value="use" control={<Radio color="primary" />} label="是" />
-                <FormControlLabel value="unuse" control={<Radio color="primary" />} label="否" />
+                <FormControlLabel value="use" control={<Radio color="primary" />} label="全部折抵~" />
+                <FormControlLabel value="unuse" control={<Radio color="primary" />} label="下次再折!!! " />
             </RadioGroup>
           </FormControl>
         </main>
