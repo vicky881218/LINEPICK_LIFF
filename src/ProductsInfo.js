@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -25,6 +25,9 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import axios from 'axios';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -124,25 +127,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const productPosts = [
-    {
-        product_desc: '是北海道一種著名的巧克力夾心薄餅，於2塊餅乾中夾著一層的白巧克力。及後有黑色的牛奶巧克力口味。',
-        product_name: '白色戀人巧克力 ',
-    },
-];
 
-const productItemPosts = [
-    {
-        product_style: '黑巧克力(24入)',
-        product_photo: 'https://source.unsplash.com/random',
-        product_price: '750',
-    },
-    {
-        product_style: '白巧克力(24入)',
-        product_photo: 'https://source.unsplash.com/random',
-        product_price: '750',
-    },
-];
 
 export default function ProductsInfo() {
 
@@ -152,22 +137,81 @@ export default function ProductsInfo() {
         setChecked((prev) => !prev);
     };
 
+
+    const  [productItemPosts, setProductItemPosts] =  useState([]);
+    const { name } = useParams();
+  
+    useEffect(() => {
+        async function fetchData () {     
+          const oneNameAllStyle = await axios.get('/ProductsInfo/'+name);
+          setProductItemPosts(oneNameAllStyle.data);  
+        }
+        fetchData();
+      },[]);
+
+      const [styleValue, setStyleValue] = useState("[]");
+      useEffect(() => {
+        setStyleValue(styleValue)
+      }, []);
+      const valueChange = (event) => {
+        setStyleValue(event.target.value);
+      };
+      console.log ("value:"+styleValue);  
+
+      const [quantity, setQuantity] = useState(1);
+      useEffect(() => {
+        setQuantity(quantity)
+      }, []);
+      const quantityChange = (event) => {
+        setQuantity(event.target.value);
+      };
+      console.log ("quantity:"+quantity);
+
+      
+      const styleValuePrice=styleValue.split(" ")[2];
+      console.log ("styleValuePrice:"+styleValuePrice);
+      const styleValueName=styleValue.split(" ")[1];
+      console.log ("styleValueName:"+styleValueName);
+      const styleValueId=styleValue.split(" ")[0];
+      console.log ("styleValueId:"+styleValueId);
+      const singleProductTotal=styleValuePrice*quantity;
+
+
+      const [buyerId] = useState("Uce8f955020804de0a0e90fec457e4b32");
+      const [productId, setProductId] = useState(styleValueId);
+      
+
+      function send(){
+        setProductId(styleValueId);
+        const cartInfo={
+          buyerId,
+          productId:styleValueId,
+          quantity,
+        };
+
+        axios.put("/CartAdd/", cartInfo)
+        .then(res => {
+          console.log(res);
+          console.log(res.data);
+        });
+      }
+
     return (
         <React.Fragment>
             <CssBaseline />
             <Container className={classes.root}>
                 <Grid className={classes.grid} item xs={12}>
-                    {productPosts.map((post) => (
-                        <Grid item key={post} item xs={12}>
+                     {/* {productItemPosts.map((post) => (  */}
+                        <Grid item  item xs={12}>
                             <div className={classes.productTitle}>
                                 <Typography variant="h5" style={{ fontWeight: "bold" }}>
-                                    {post.product_name}
+                                    {productItemPosts.productName}
                                 </Typography>
                             </div>
                             <Divider />
                             <div className={classes.productDesc}>
                                 <Typography variant="subtitle1" color="textSecondary">
-                                    {post.product_desc}
+                                    {productItemPosts.productDesc}
                                 </Typography>
                             </div>
                             <FormControlLabel
@@ -182,9 +226,9 @@ export default function ProductsInfo() {
                                                 選擇項目:
                                                     <div className={classes.productStyle}>
                                                     <FormControl component="fieldset">
-                                                        <RadioGroup aria-label="payment">
+                                                        <RadioGroup aria-label="payment" value={styleValue} onChange={valueChange}>
                                                             {productItemPosts.map((item) => (
-                                                                <FormControlLabel value={item.product_style} control={<Radio color="primary" />} label={<span>{item.product_style}  /  {item.product_price} 元</span>} />
+                                                                <FormControlLabel key={item.productId} value={item.productId+" "+item.productStyle+" "+item.productPrice} control={<Radio color="primary" />} label={<span>{item.productStyle}  /  {item.productPrice} 元</span>} />
                                                             ))}
                                                         </RadioGroup>
                                                     </FormControl>
@@ -192,24 +236,26 @@ export default function ProductsInfo() {
                                             </Typography>
                                         </CardContent>
                                         <div className={classes.controls}>
-                                            <Button size="medium" className={classes.icon}>
+                                            <Button size="medium" className={classes.icon} onClick={() => setQuantity(quantity - 1)}>
                                                 <RemoveCircleOutlineIcon fontSize="medium" />
                                             </Button>
-                                            <Input ></Input>
-                                            <Button size="medium" className={classes.icon}>
+                                            <Input value={quantity} type='text' onChange={quantityChange}></Input>
+                                            <Button size="medium" className={classes.icon} onClick={() => setQuantity(quantity + 1)}>
                                                 <AddCircleOutlineIcon fontSize="medium" />
                                             </Button>
                                         </div>
                                         <div className={classes.total}>
                                             <Button size="small" className={classes.totalIcon}>
                                                 <AttachMoneyIcon />
-                                                { }元
+                                                {singleProductTotal}元
                                                 </Button>
                                         </div>
                                         <CardActions className={classes.buy}>
-                                            <Button className={classes.cardButton}>
+                                            <Button className={classes.cardButton} onClick={() => send(styleValueId)} >
+                                            <Link to={'/CartInfo/'+buyerId} >
                                                 <ShoppingCartIcon />
                                                         Pick
+                                                        </Link>
                                                     </Button>
                                         </CardActions>
                                     </div>
@@ -219,19 +265,20 @@ export default function ProductsInfo() {
                                 {productItemPosts.map((item) => (
                                     <GridList cellHeight={180} className={classes.gridList}>
                                         <GridListTile key={item} className={classes.gridListItem}>
-                                            <img src={item.product_photo} alt={item.product_photo} />
+                                            <img src={item.productPhoto} alt={item.productPhoto} />
                                             <GridListTileBar
-                                                title={item.product_style}
-                                                subtitle={<span>售價: {item.product_price}元</span>}
+                                                title={item.productStyle}
+                                                subtitle={<span>售價: {item.productPrice}元</span>}
                                             />
                                         </GridListTile>
                                     </GridList>
                                 ))}
                             </Grid>
                         </Grid>
-                    ))}
+                     {/* ))}   */}
                 </Grid>
             </Container>
         </React.Fragment>
     );
+
 }

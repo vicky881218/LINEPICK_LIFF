@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect}from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Divider from '@material-ui/core/Divider';
@@ -18,6 +18,9 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import axios from 'axios';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -97,28 +100,61 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const productPosts = [
-    {
-        product_name: '白色戀人巧克力 ',
-    },
-];
+// const productPosts = [
+//     {
+//         product_name: '白色戀人巧克力 ',
+//     },
+// ];
 
-const productItemPosts = [
-    {
-        product_style: '黑巧克力(24入)',
-        product_photo: 'https://source.unsplash.com/random',
-        product_price: '750',
-    },
-    {
-        product_style: '白巧克力(24入)',
-        product_photo: 'https://source.unsplash.com/random',
-        product_price: '750',
-    },
-];
+// const productItemPosts = [
+//     {
+//         product_style: '黑巧克力(24入)',
+//         product_photo: 'https://source.unsplash.com/random',
+//         product_price: '750',
+//     },
+//     {
+//         product_style: '白巧克力(24入)',
+//         product_photo: 'https://source.unsplash.com/random',
+//         product_price: '750',
+//     },
+// ];
 
 export default function Cart() {
+    console.log("In Cart:");
     const classes = useStyles();
     const theme = useTheme();
+
+    const  [productItemPosts, setProductItemPosts] =  useState([]);
+    //const  [productItemPost2, setProductItemPost2] =  useState([1]);
+    const  {buyerId} = useParams();
+  
+    useEffect(() => {
+        async function fetchData () {     
+        
+          const result = await axios.get('/CartInfo/'+buyerId);
+          setProductItemPosts(result.data);  
+          console.log("result.data:"+result.data);        
+        }
+        fetchData();
+      },[]);
+
+    console.log("productItemPosts:"+productItemPosts);
+
+    // useEffect(() => {
+    //     async function fetchData () {     
+    //       console.log("cartProductId in 2:"+buyerId);
+    //       const result = await axios.get('/CartProductInfo/'+buyerId);
+    //       setProductItemPost2(result.data.quantity);  
+    //       console.log("result.data 2:"+result.data.quantity);
+    //     }
+    //     fetchData();
+    //   },[]);
+    //   console.log("productItemPost2:"+productItemPost2);
+
+    //   const quantityChange = (event) => {
+    //     setProductItemPost2(event.target.value);
+    //   };
+    //   console.log ("quantity:"+productItemPost2.quantity);
 
     return (
         <body className={classes.body}>
@@ -128,9 +164,9 @@ export default function Cart() {
                     賴皮願望
                 </div>
                 <Divider className={classes.divider} />
-                {productPosts.map((post) => (
+                {productItemPosts.map((item) => (
                     <div>
-                        {productItemPosts.map((item) => (
+                       {/* {productItemPost2.map((post) => ( */}
                             <FormGroup>
                                 <Card className={classes.root} variant="outlined">
                                     <FormControlLabel
@@ -144,23 +180,23 @@ export default function Cart() {
                                     <div className={classes.details}>
                                         <CardContent className={classes.content}>
                                             <Typography component="h6" variant="h6">
-                                                {post.product_name}
+                                                {item.productName}
                                             </Typography>
                                             <Typography variant="subtitle1" color="textSecondary">
-                                                {<span>品項: {item.product_style}</span>}
+                                                {<span>品項: {item.productStyle}</span>}
                                             </Typography>
                                             <Typography variant="subtitle1" color="textSecondary">
-                                                {<span>售價: {item.product_price} 元</span>}
+                                                {<span>售價: {item.productPrice} 元</span>}
                                             </Typography>
                                         </CardContent>
                                         <div className={classes.controls}>
-                                            <Button size="small" className={classes.icon}>
+                                        {/* <Button size="small" className={classes.icon} onClick={() => setProductItemPost2(productItemPost2 - 1)}>
                                                 <RemoveCircleOutlineIcon fontSize="small" />
                                             </Button>
-                                            <Input ></Input>
-                                            <Button size="small" className={classes.icon}>
+                                            <Input value={post.quantity} type='text' onChange={quantityChange}></Input>
+                                            <Button size="small" className={classes.icon} onClick={() => setProductItemPost2(productItemPost2 + 1)}>
                                                 <AddCircleOutlineIcon fontSize="small" />
-                                            </Button>
+                                            </Button> */}
                                         </div>
                                         <div className={classes.item}>
                                             <Button size="small" className={classes.icon}>
@@ -175,14 +211,14 @@ export default function Cart() {
                                     </div>
                                     <CardMedia
                                         className={classes.cover}
-                                        image={item.product_photo}
-                                        title={post.product_name}
+                                        image={item.productPhoto}
+                                        title={item.productName}
                                     />
 
                                 </Card>
 
                             </FormGroup>
-                        ))}
+                        {/* ))}   */}
                     </div>
                 ))}
                 <div className={classes.submit}>
