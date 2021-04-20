@@ -66,7 +66,7 @@ export default function PaymentForm() {
           使用購物金折抵
         </Typography>
         <Typography className={classes.money}>您的賴皮購物金: 130 元</Typography>
-        <Typography>此筆訂單可折抵金額: 14 元</Typography>
+        <Typography>此筆訂單可折抵金額: 10 元</Typography>
         <main>
           <FormControl component="fieldset">
             <RadioGroup aria-label="coupon" value={valueCoupon} onChange={handleChangeCoupon}>

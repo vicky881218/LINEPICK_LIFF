@@ -108,11 +108,13 @@ const productItemPosts = [
         product_style: '黑巧克力(24入)',
         product_photo: 'https://source.unsplash.com/random',
         product_price: '750',
+        product_stock: '20',
     },
     {
         product_style: '白巧克力(24入)',
         product_photo: 'https://source.unsplash.com/random',
         product_price: '750',
+        product_stock: '50',
     },
 ];
 
@@ -151,6 +153,9 @@ export default function Cart() {
                                             </Typography>
                                             <Typography variant="subtitle1" color="textSecondary">
                                                 {<span>售價: {item.product_price} 元</span>}
+                                            </Typography>
+                                            <Typography variant="subtitle1" color="textSecondary">
+                                                {<span>庫存: {item.product_stock}</span>}
                                             </Typography>
                                         </CardContent>
                                         <div className={classes.controls}>

@@ -19,18 +19,18 @@ const sections = [
 function App() {
   return (
     <div >
-      <Header title="Line Pick" sections={sections} />
-       {/* <Type />  */}
-       {/* <Cart /> */}
-      {/* <Checkout/>   */}
+      <Header title="LINE PICK" sections={sections} />
+      {/* <Type />  */}
+        <Cart /> 
+       {/* <Checkout/>     */}
       {/* <Inputinfo/> */} 
       {/* <ChangeInfo /> */}
-       {/* <BuyerInfo />  */}
+      {/* <BuyerInfo />  */}
        {/* <ProductsInfo />   */}
-       {/* <Record />  */}
-       <Pickpoint />
+       {/* <Record />     */}
+       {/* <Pickpoint />   */}
 
-      <Footer title="Line Pick" description="Wish you a wonderful day !" />
+      <Footer title="LINE PICK" description="Wish you a wonderful day !" />
     </div>
   );
 }

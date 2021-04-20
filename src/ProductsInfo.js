@@ -136,11 +136,13 @@ const productItemPosts = [
         product_style: '黑巧克力(24入)',
         product_photo: 'https://source.unsplash.com/random',
         product_price: '750',
+        product_stock: '20',
     },
     {
         product_style: '白巧克力(24入)',
         product_photo: 'https://source.unsplash.com/random',
         product_price: '750',
+        product_stock: '50',
     },
 ];
 
@@ -184,7 +186,7 @@ export default function ProductsInfo() {
                                                     <FormControl component="fieldset">
                                                         <RadioGroup aria-label="payment">
                                                             {productItemPosts.map((item) => (
-                                                                <FormControlLabel value={item.product_style} control={<Radio color="primary" />} label={<span>{item.product_style}  /  {item.product_price} 元</span>} />
+                                                                <FormControlLabel value={item.product_style} control={<Radio color="primary" />} label={<span>{item.product_style}  /  {item.product_price} 元 / 庫存:{item.product_stock}</span>} />
                                                             ))}
                                                         </RadioGroup>
                                                     </FormControl>
