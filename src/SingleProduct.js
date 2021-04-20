@@ -7,7 +7,7 @@ import Header from './Header';
 import ProductPost from './ProductPost';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-import Text from 'react-text';
+
 import { useParams } from 'react-router';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
