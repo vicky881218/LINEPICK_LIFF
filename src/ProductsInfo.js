@@ -163,6 +163,7 @@ export default function ProductsInfo() {
         setQuantity(quantity)
       }, []);
       const quantityChange = (event) => {
+        console.log ("event.target.value:"+event.target.value);
         setQuantity(event.target.value);
       };
       console.log ("quantity:"+quantity);
@@ -175,6 +176,7 @@ export default function ProductsInfo() {
       const styleValueId=styleValue.split(" ")[0];
       console.log ("styleValueId:"+styleValueId);
       const singleProductTotal=styleValuePrice*quantity;
+      
 
 
       const [buyerId] = useState("Uce8f955020804de0a0e90fec457e4b32");
@@ -247,7 +249,7 @@ export default function ProductsInfo() {
                                         <div className={classes.total}>
                                             <Button size="small" className={classes.totalIcon}>
                                                 <AttachMoneyIcon />
-                                                {singleProductTotal}元
+                                                {singleProductTotal.isNAN?0:singleProductTotal}元
                                                 </Button>
                                         </div>
                                         <CardActions className={classes.buy}>

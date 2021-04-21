@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -13,6 +13,7 @@ import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -72,19 +73,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const steps = ['基本資訊', '付款資訊', '訂單明細'];
-const sections = [];
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <AddressForm />;
-    case 1:
-      return <PaymentForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
+
 
 export default function Checkout() {
   const classes = useStyles();
@@ -97,6 +86,47 @@ export default function Checkout() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
+  const [temporaryBuyerInfo,setTemporaryBuyerInfo] = useState([]);
+  const [temporaryPaymentInfo,setTemporaryPaymentInfo] = useState([]);
+  
+//等同於function setBuyerInfo(buyerInfo){}
+const setBuyerInfo = (buyerInfo)=> {
+  console.log("update from AddressForm");
+  console.log(buyerInfo);
+  setTemporaryBuyerInfo(buyerInfo);
+  setActiveStep(activeStep + 1);
+}
+console.log("temporaryBuyerInfo");
+console.log(temporaryBuyerInfo);
+// const thisBuyerName = temporaryPaymentInfo;
+// const thisBuyerPhone = temporaryPaymentInfo;
+// const thisBuyerMail  = temporaryPaymentInfo;
+// const thisBuyerAddress  = temporaryPaymentInfo;
+
+const setPaymentInfo = (paymentInformation)=> {
+  console.log("update form PaymentForm");
+  console.log(paymentInformation);
+  setTemporaryPaymentInfo(paymentInformation);
+  setActiveStep(activeStep + 1);
+}
+console.log("temporaryPaymentInfo");
+console.log(temporaryPaymentInfo);
+// const selectPayment = temporaryPaymentInfo.splice()[0];
+// const usePickMoney = temporaryPaymentInfo.splice()[1];
+
+function getStepContent(step) {
+  switch (step) {
+    case 0:
+      return <AddressForm update={setBuyerInfo}/>;
+    case 1:
+      return <PaymentForm update={setPaymentInfo}/>;
+    case 2:
+      return <Review />;
+    default:
+      throw new Error('Unknown step');
+  }
+}
 
   return (
     <React.Fragment>
@@ -126,7 +156,9 @@ export default function Checkout() {
                 </Typography>
                 <Typography variant="h6" gutterBottom align="center" className={classes.title}>
                   <Button variant="text" className={classes.mainButton}>
+                  <Link to={'/Type'} >
                     回首頁
+                    </Link>
                 </Button>
                 </Typography>
               </React.Fragment>
@@ -139,6 +171,7 @@ export default function Checkout() {
                       Back
                     </Button>
                   )}
+                  {/* 
                   <Button
                     variant="outlined"
                     color="primary"
@@ -147,8 +180,8 @@ export default function Checkout() {
                   >
                     {activeStep === steps.length - 1 ? '送出訂單' : 'Next'}
                     <NavigateNextIcon />
-                  </Button>
-                </div>
+                  </Button>*/}
+                </div> 
               </React.Fragment>
             )}
           </React.Fragment>

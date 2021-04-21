@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -6,6 +6,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
+import axios from 'axios';
+import { useParams } from 'react-router';
+import Button from '@material-ui/core/Button';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 const products = [
   { name: '白色戀人巧克力', style: '黑巧克力(24入)', quantity: 1, price: '700' },
@@ -43,10 +47,36 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "underline",
     marginBottom: 15,
   },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(1),
+  },
 }));
 
 export default function Review() {
   const classes = useStyles();
+  const { id} = useParams();
+  function send(){
+  }
+  // console.log ("in Review:");
+  // console.log ("id:"+id);
+  // console.log ("paymentInformation:");
+  
+
+  // useEffect(() => {
+  //   async function fetchData () {  
+  //     console.log ("id:"+id);
+  //     const result = await axios.get('/Checkout/'+id);
+  //     console.log ("result:"+result.data);
+  //     console.log(result.data);
+  //     setPickmoney(result.data); 
+  //   }
+  //   fetchData();
+  // },[]);
 
   return (
     <React.Fragment>
@@ -125,6 +155,20 @@ export default function Review() {
           </Grid>
         </Grid>
       </Grid>
+      <div className={classes.buttons}>
+          {/* <Button onClick={() => sendBack()} className={classes.button}>
+              Back
+            </Button> */}
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => send()}
+            className={classes.button}
+            >
+            Next
+            <NavigateNextIcon />
+          </Button>
+                </div>
     </React.Fragment>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +6,11 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import axios from 'axios';
+import { useParams } from 'react-router';
+import Button from '@material-ui/core/Button';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+
 const useStyles = makeStyles((theme) => ({
   title: {
     color: '#8C7599',
@@ -19,11 +24,19 @@ const useStyles = makeStyles((theme) => ({
     color: '#6b7f94',
     marginBottom: 5,
   },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(1),
+  },
 }));
 
 const paymentPosts = [
   {
-    title: 'Line Pay',
+    title: 'LinePay',
   },
   {
     title: '信用卡線上付款',
@@ -33,9 +46,9 @@ const paymentPosts = [
   },
 ];
 
-export default function PaymentForm() {
+export default function PaymentForm(props) {
   const classes = useStyles();
-  const [valuePayment, setValuePayment] = React.useState('Line Pay');
+  const [valuePayment, setValuePayment] = React.useState('LinePay');
   const handleChangePayment = (event) => {
     setValuePayment(event.target.value);
   };
@@ -43,6 +56,33 @@ export default function PaymentForm() {
   const handleChangeCoupon = (event) => {
     setValueCoupon(event.target.value);
   };
+
+  console.log ("valuePayment:"+valuePayment);
+  console.log ("valueCoupon:"+valueCoupon);
+
+  const  [pickmoney, setPickmoney] =  useState([]);
+  const  [paymentInformation, setPaymentInformation] =  useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    async function fetchData () {  
+      console.log ("id:"+id);
+      const result = await axios.get('/Checkout/'+id);
+      console.log ("result:"+result.data);
+      console.log(result.data);
+      setPickmoney(result.data); 
+    }
+    fetchData();
+  },[]);
+
+  function send(){
+    console.log ("valuePayment in send:"+valuePayment);
+    console.log ("valueCoupon in send:"+valueCoupon);
+    setPaymentInformation(valuePayment+" "+valueCoupon);
+    props.update(paymentInformation);
+  }
+  console.log ("paymentInformation:"+paymentInformation);
+
 
   return (
     <React.Fragment>
@@ -65,7 +105,7 @@ export default function PaymentForm() {
         <Typography className={classes.title}>
           使用購物金折抵
         </Typography>
-        <Typography className={classes.money}>您的賴皮購物金: 130 元</Typography>
+        <Typography className={classes.money}>您的賴皮購物金:{pickmoney.pickmoney}元</Typography>
         <Typography>此筆訂單可折抵金額: 14 元</Typography>
         <main>
           <FormControl component="fieldset">
@@ -76,6 +116,20 @@ export default function PaymentForm() {
           </FormControl>
         </main>
       </div>
+      <div className={classes.buttons}>
+          {/* <Button onClick={() => sendBack()} className={classes.button}>
+              Back
+            </Button> */}
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => send()}
+            className={classes.button}
+            >
+            Next
+            <NavigateNextIcon />
+          </Button>
+                </div>
     </React.Fragment>
   );
 }

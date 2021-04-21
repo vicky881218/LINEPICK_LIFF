@@ -100,61 +100,50 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-// const productPosts = [
-//     {
-//         product_name: '白色戀人巧克力 ',
-//     },
-// ];
-
-// const productItemPosts = [
-//     {
-//         product_style: '黑巧克力(24入)',
-//         product_photo: 'https://source.unsplash.com/random',
-//         product_price: '750',
-//     },
-//     {
-//         product_style: '白巧克力(24入)',
-//         product_photo: 'https://source.unsplash.com/random',
-//         product_price: '750',
-//     },
-// ];
-
 export default function Cart() {
     console.log("In Cart:");
     const classes = useStyles();
-    const theme = useTheme();
+    const [checked, setChecked] = useState(false);
 
     const  [productItemPosts, setProductItemPosts] =  useState([]);
-    //const  [productItemPost2, setProductItemPost2] =  useState([1]);
+    const  [sum, setSum] =  useState(0);
     const  {buyerId} = useParams();
-  
-    useEffect(() => {
+    
+    const setQuantity = (index, amt)=> {
+        //stay >=0
+        if (productItemPosts[index].quantity+amt >=0) {
+            productItemPosts[index].quantity+=amt;
+        }
+        setProductItemPosts([...productItemPosts]);
+    }
+
+    const chooseProduct = (index,event,checked)=> {
+        console.log("in chooseProduct index:"+index);  
+        console.log("in chooseProduct event:"+event.target.value);  
+        console.log("in chooseProduct checked:"+checked);
+        const chooseProduct = event.target.value;
+        //chooseProducts
+        if(checked==false){
+            checked=true;
+            sum += chooseProduct.split(" ")[2];
+        }else{
+            checked=false;
+            sum -= chooseProduct.split(" ")[2];
+        }
+        setChecked(checked);
+        setSum(sum);
+        console.log("in chooseProduct checked2:"+checked);
+    }
+    
+
+      useEffect(() => {
         async function fetchData () {     
-        
-          const result = await axios.get('/CartInfo/'+buyerId);
-          setProductItemPosts(result.data);  
-          console.log("result.data:"+result.data);        
+          const productsInfo = await axios.get('/CartProductInfo');
+          setProductItemPosts(productsInfo.data); 
+          console.log("productItemPosts:"+productsInfo.data);     
         }
         fetchData();
       },[]);
-
-    console.log("productItemPosts:"+productItemPosts);
-
-    // useEffect(() => {
-    //     async function fetchData () {     
-    //       console.log("cartProductId in 2:"+buyerId);
-    //       const result = await axios.get('/CartProductInfo/'+buyerId);
-    //       setProductItemPost2(result.data.quantity);  
-    //       console.log("result.data 2:"+result.data.quantity);
-    //     }
-    //     fetchData();
-    //   },[]);
-    //   console.log("productItemPost2:"+productItemPost2);
-
-    //   const quantityChange = (event) => {
-    //     setProductItemPost2(event.target.value);
-    //   };
-    //   console.log ("quantity:"+productItemPost2.quantity);
 
     return (
         <body className={classes.body}>
@@ -164,9 +153,8 @@ export default function Cart() {
                     賴皮願望
                 </div>
                 <Divider className={classes.divider} />
-                {productItemPosts.map((item) => (
+                {productItemPosts.map((item,index) => (
                     <div>
-                       {/* {productItemPost2.map((post) => ( */}
                             <FormGroup>
                                 <Card className={classes.root} variant="outlined">
                                     <FormControlLabel
@@ -175,6 +163,10 @@ export default function Cart() {
                                                 color="primary"
                                                 icon={<CheckBoxOutlineBlankIcon fontSize="medium" />}
                                                 checkedIcon={<CheckBoxIcon fontSize="medium" />}
+                                                value={item.productId+" "+item.quantity+" "+item.quantity*item.productPrice}
+                                                defaultChecked={checked}
+                                                onChange={(event) => chooseProduct(index,event,checked)}
+                                                alt=""
                                             />
                                         } className={classes.checkbox} />
                                     <div className={classes.details}>
@@ -190,13 +182,13 @@ export default function Cart() {
                                             </Typography>
                                         </CardContent>
                                         <div className={classes.controls}>
-                                        {/* <Button size="small" className={classes.icon} onClick={() => setProductItemPost2(productItemPost2 - 1)}>
+                                        <Button size="small" className={classes.icon} onClick={() => setQuantity(index, -1)}>
                                                 <RemoveCircleOutlineIcon fontSize="small" />
                                             </Button>
-                                            <Input value={post.quantity} type='text' onChange={quantityChange}></Input>
-                                            <Button size="small" className={classes.icon} onClick={() => setProductItemPost2(productItemPost2 + 1)}>
+                                            <Input value={item.quantity} type='text' ></Input>
+                                            <Button size="small" className={classes.icon} onClick={() => setQuantity(index, 1)}>
                                                 <AddCircleOutlineIcon fontSize="small" />
-                                            </Button> */}
+                                            </Button>
                                         </div>
                                         <div className={classes.item}>
                                             <Button size="small" className={classes.icon}>
@@ -205,7 +197,7 @@ export default function Cart() {
                                             </Button>
                                             <Button size="small" className={classes.icon}>
                                                 <AttachMoneyIcon />
-                                                { }元
+                                                {item.quantity*item.productPrice}元
                                             </Button>
                                         </div>
                                     </div>
@@ -218,13 +210,12 @@ export default function Cart() {
                                 </Card>
 
                             </FormGroup>
-                        {/* ))}   */}
                     </div>
                 ))}
                 <div className={classes.submit}>
                     <Button size="medium" className={classes.total}>
                         <AttachMoneyIcon />
-                    總金額:{ }元
+                    總金額:{sum}元
                 </Button>
                 </div>
                 <Divider className={classes.divider} />

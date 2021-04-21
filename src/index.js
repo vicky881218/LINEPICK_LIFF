@@ -9,6 +9,7 @@ import ProductsInfo from './ProductsInfo';
 import Cart from './Cart';
 import Checkout from './Checkout';
 import BuyerInfo from './BuyerInfo';
+import InputInfo from './InputInfo';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,9 +18,10 @@ ReactDOM.render(
             <Route exact path="/" component={App}/>
             <Route exact path="/Type" component={Type}/>
             <Route path="/ProductsInfo/:name" component={ProductsInfo}/>
-            <Route path="/CartInfo/:buyerId" component={Cart}/>
+            <Route path="/CartInfo" component={Cart}/>
             <Route path="/Checkout/:id" component={Checkout}/>
             <Route path="/BuyerInfo/:id" component={BuyerInfo}/>
+            <Route path="/InputInfo" component={InputInfo}/>
             </Switch>
     </BrowserRouter>
   </React.StrictMode>,
