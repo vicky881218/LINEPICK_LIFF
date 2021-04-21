@@ -230,7 +230,7 @@ export default function ProductsInfo() {
                                                     <FormControl component="fieldset">
                                                         <RadioGroup aria-label="payment" value={styleValue} onChange={valueChange}>
                                                             {productItemPosts.map((item) => (
-                                                                <FormControlLabel key={item.productId} value={item.productId+" "+item.productStyle+" "+item.productPrice} control={<Radio color="primary" />} label={<span>{item.productStyle}  /  {item.productPrice} 元</span>} />
+                                                                <FormControlLabel key={item.productId} value={item.productId+" "+item.productStyle+" "+item.productPrice} control={<Radio color="primary" />} label={<span>{item.productStyle}  /  {item.productPrice} 元 / 庫存: {item.productStock}</span>} />
                                                             ))}
                                                         </RadioGroup>
                                                     </FormControl>

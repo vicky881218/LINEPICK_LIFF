@@ -9,6 +9,7 @@ import BuyerInfo from './BuyerInfo';
 import ProductsInfo from './ProductsInfo';
 import Record from './Record';
 import Pickpoint from './Pickpoint';
+import Home from './Home';
 
 const sections = [
   { title: '零食', url: '#' },
@@ -19,18 +20,19 @@ const sections = [
 function App() {
   return (
     <div >
-      <Header title="Line Pick" sections={sections} />
-       <Type /> 
-       {/* <Cart /> */}
-      {/* <Checkout/>   */}
+      <Header title="LINE PICK" sections={sections} />
+      {/* <Type />  */}
+        {/* <Cart />  */}
+       {/* <Checkout/>     */}
       {/* <Inputinfo/> */} 
       {/* <ChangeInfo /> */}
-       {/* <BuyerInfo />  */}
+      {/* <BuyerInfo />  */}
        {/* <ProductsInfo />   */}
-       {/* <Record />  */}
-       {/* <Pickpoint /> */}
+       {/* <Record />     */}
+       {/* <Pickpoint />   */}
+       <Home />
 
-      <Footer title="Line Pick" description="Wish you a wonderful day !" />
+      <Footer title="LINE PICK" description="Wish you a wonderful day !" />
     </div>
   );
 }

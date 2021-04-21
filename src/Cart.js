@@ -180,6 +180,9 @@ export default function Cart() {
                                             <Typography variant="subtitle1" color="textSecondary">
                                                 {<span>售價: {item.productPrice} 元</span>}
                                             </Typography>
+                                            <Typography variant="subtitle1" color="textSecondary">
+                                                {<span>庫存: {item.productStock}</span>}
+                                            </Typography>
                                         </CardContent>
                                         <div className={classes.controls}>
                                         <Button size="small" className={classes.icon} onClick={() => setQuantity(index, -1)}>
