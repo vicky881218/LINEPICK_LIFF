@@ -21,6 +21,8 @@ import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import axios from 'axios';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import Header2 from './Header2';
+import Footer from './Footer';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -103,12 +105,31 @@ const useStyles = makeStyles((theme) => ({
 export default function Cart() {
     console.log("In Cart:");
     const classes = useStyles();
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState([]);
 
     const  [productItemPosts, setProductItemPosts] =  useState([]);
     const  [sum, setSum] =  useState(0);
-    const  {buyerId} = useParams();
-    
+    const  {id} = useParams();
+    const [deleted, setDeleted] = useState(false);
+
+    useEffect(() => {
+        async function fetchData () {   
+          console.log("try useEffect:"+id);     
+          const productsInfo = await axios.get('/CartProductInfo/'+id);
+          setProductItemPosts(productsInfo.data); 
+          productsInfo.data.forEach((item, index)=>checked[index]=false);
+          console.log("productItemPosts:"+productsInfo.data);     
+        }
+        fetchData();
+      },[deleted]);
+
+    function remove(cartId){
+        console.log("cart_id:"+cartId);
+        axios.delete("/CartDeleted/"+cartId).then(res => {   
+          setDeleted(currentDeleted=>setDeleted(!currentDeleted));  
+        });
+      }
+
     const setQuantity = (index, amt)=> {
         //stay >=0
         if (productItemPosts[index].quantity+amt >=0) {
@@ -118,35 +139,29 @@ export default function Cart() {
     }
 
     const chooseProduct = (index,event,checked)=> {
+        let total = 0;
         console.log("in chooseProduct index:"+index);  
         console.log("in chooseProduct event:"+event.target.value);  
-        console.log("in chooseProduct checked:"+checked);
+        console.log("in chooseProduct checked before:"+checked);
         const chooseProduct = event.target.value;
-        //chooseProducts
-        if(checked==false){
-            checked=true;
-            sum += chooseProduct.split(" ")[2];
+        console.log("chooseProduct:"+parseInt(chooseProduct.split(" ")[2])); 
+        if(checked[index]==false){
+            checked[index]=true;
+            total += parseInt(chooseProduct.split(" ")[2]);
         }else{
-            checked=false;
-            sum -= chooseProduct.split(" ")[2];
+            checked[index]=false;
+            total -= parseInt(chooseProduct.split(" ")[2]);
         }
-        setChecked(checked);
-        setSum(sum);
-        console.log("in chooseProduct checked2:"+checked);
+        setChecked([...checked]);
+        console.log("in chooseProduct checked after:"+checked);
+        setSum((sum)=>sum+total);
     }
     
-
-      useEffect(() => {
-        async function fetchData () {     
-          const productsInfo = await axios.get('/CartProductInfo');
-          setProductItemPosts(productsInfo.data); 
-          console.log("productItemPosts:"+productsInfo.data);     
-        }
-        fetchData();
-      },[]);
-
     return (
+        <div>
+        <Header2/>      
         <body className={classes.body}>
+            
             <div className={classes.container}>
                 <div className={classes.title}>
                     <ShoppingCartIcon fontSize="medium" />
@@ -164,7 +179,7 @@ export default function Cart() {
                                                 icon={<CheckBoxOutlineBlankIcon fontSize="medium" />}
                                                 checkedIcon={<CheckBoxIcon fontSize="medium" />}
                                                 value={item.productId+" "+item.quantity+" "+item.quantity*item.productPrice}
-                                                defaultChecked={checked}
+                                                defaultChecked={checked[index]}
                                                 onChange={(event) => chooseProduct(index,event,checked)}
                                                 alt=""
                                             />
@@ -194,7 +209,7 @@ export default function Cart() {
                                             </Button>
                                         </div>
                                         <div className={classes.item}>
-                                            <Button size="small" className={classes.icon}>
+                                            <Button size="small" className={classes.icon} onClick={()=>remove(item.cartId)}>
                                                 <DeleteIcon />
                                             移除
                                             </Button>
@@ -209,9 +224,7 @@ export default function Cart() {
                                         image={item.productPhoto}
                                         title={item.productName}
                                     />
-
                                 </Card>
-
                             </FormGroup>
                     </div>
                 ))}
@@ -223,10 +236,14 @@ export default function Cart() {
                 </div>
                 <Divider className={classes.divider} />
                 <Button size="large" className={classes.nextStep}>
+                <Link to={'/Checkout/'+id} >
                     前往結帳
                     <NavigateNextIcon />
+                    </Link>
                 </Button>
-            </div>
+            </div>   
         </body >
+        <Footer title="LINE PICK" description="Wish you a wonderful day !" />
+        </div> 
     );
 }

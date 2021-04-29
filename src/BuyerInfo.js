@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect}from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +11,11 @@ import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import { useParams } from 'react-router';
+import Header2 from './Header2';
+import Footer from './Footer';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -56,19 +61,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const InfoPosts = [
-    {
-        buyer_name: 'Celine',
-        buyer_phone: '0912345678',
-        buyer_mail: 'c@gmail.com',
-        buyer_address: 'abcde',
-    },
-];
 
 export default function BuyerInfo() {
     const classes = useStyles();
+    const { id } = useParams();
+    const  [buyerInformations, setBuyerInformations] =  useState([]);
+  useEffect(() => {
+    async function fetchData () {     
+      console.log ("buyerId:"+id);
+      const result = await axios.get('/Checkout/'+id);
+      console.log ("result:"+result.data);
+      console.log(result.data);
+      setBuyerInformations(result.data);
+      
+    }
+    fetchData();
+  },[]);
+
     return (
         <div>
+        <Header2/>
             <Container component="main" maxWidth="sm">
                 <CssBaseline />
                 <div className={classes.paper}>
@@ -81,37 +93,40 @@ export default function BuyerInfo() {
                     <form className={classes.form} noValidate>
                         <div className={classes.changeInfo}>
                             <Typography className={classes.change}>
-                                <CreateIcon fontSize="small" />
-                        修改
+                            <Link to={'/ChangeInfo/'+id} >
+                                <CreateIcon fontSize="small" />修改
+                                </Link>
                                 </Typography>
+                               
                         </div>
-                        {InfoPosts.map((post) => (
+                        {/* {InfoPosts.map((post) => ( */}
                             <List>
                                 <ListItem alignItems="flex-start">
                                     <ListItemText>
-                                        <div className={classes.itemText}>姓名: {post.buyer_name}</div>
+                                        <div className={classes.itemText}>姓名:{buyerInformations.buyerName}</div>
                                     </ListItemText>
                                 </ListItem>
                                 <Divider />
                                 <ListItem alignItems="flex-start">
                                     <ListItemText >
-                                        <div className={classes.itemText}>聯絡電話: {post.buyer_phone}</div>
+                                        <div className={classes.itemText}>聯絡電話:{buyerInformations.buyerPhone}</div>
                                     </ListItemText>
                                 </ListItem>
                                 <Divider />
                                 <ListItem alignItems="flex-start">
                                     <ListItemText >
-                                        <div className={classes.itemText}>電子信箱: {post.buyer_mail} </div>
+                                        <div className={classes.itemText}>電子信箱:{buyerInformations.buyerMail}</div>
                                     </ListItemText>
                                 </ListItem>
                                 <Divider />
                                 <ListItem alignItems="flex-start">
                                     <ListItemText >
-                                        <div className={classes.itemText}>聯絡地址: {post.buyer_address} </div>
+                                        <div className={classes.itemText}>聯絡地址:{buyerInformations.buyerAddress}</div>
                                     </ListItemText>
                                 </ListItem>
                             </List>
-                        ))}
+                        {/* ))} */}
+                        {buyerInformations.buyerPhone==null || buyerInformations.buyerPhone=="" ?
                         <Button
                             type="submit"
                             fullWidth
@@ -119,11 +134,15 @@ export default function BuyerInfo() {
                             color="primary"
                             className={classes.submit}
                         >
+                            <Link to={'/InputInfo/'+id} style={{color:'#FFFF'}} >
                             尚未填寫，點選新增
+                            </Link>
                         </Button>
+                        :''}
                     </form>
                 </div>
             </Container>
+            <Footer title="LINE PICK" description="Wish you a wonderful day !" />
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,6 +8,11 @@ import CreateIcon from '@material-ui/icons/Create';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import { useParams } from 'react-router';
+import Header2 from './Header2';
+import Footer from './Footer';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -39,8 +44,51 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChangeInfo() {
     const classes = useStyles();
+    const  [buyerInformations, setBuyerInformations] =  useState([]);
+    const { id } = useParams();
+  
+    useEffect(() => {
+  
+      async function fetchData () {     
+        console.log ("buyerId:"+id);
+        const result = await axios.get('/Checkout/'+id);
+        console.log ("result:"+result.data);
+        console.log(result.data);
+        setBuyerInformations(result.data);
+        
+      }
+      fetchData();
+    },[]);
+    
+    const [buyerId] = useState(id);
+    const [buyerName, setBuyerName] = useState(buyerInformations.buyerName);
+    const [buyerPhone, setBuyerPhone] = useState(buyerInformations.buyerPhone);
+    const [buyerMail, setBuyerMail] = useState(buyerInformations.buyerMail);
+    const [buyerAddress, setBuyerAddress] = useState(buyerInformations.buyerAddress);
+  
+    function send(){
+  
+      const buyerInfo={
+        buyerId:id,
+        buyerName,
+        buyerPhone,
+        buyerMail,
+        buyerAddress,
+        pickmoney:buyerInformations.pickmoney,
+        pickpoint:buyerInformations.pickpoint
+      };
+  
+      console.log("in send buyerInfo"+buyerInfo);
+  
+      axios.put("/BuyerInformation/", buyerInfo)
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      });
+    }
     return (
         <div>
+            <Header2/>
             <Container component="main" maxWidth="sm">
                 <CssBaseline />
                 <div className={classes.paper}>
@@ -60,7 +108,8 @@ export default function ChangeInfo() {
                                     required
                                     fullWidth
                                     id="Name"
-                                    label="姓名"
+                                    label={buyerInformations.buyerName}
+                                    value={buyerName} onChange={e => setBuyerName(e.target.value)}
                                     autoFocus
                                 />
                             </Grid>
@@ -70,7 +119,8 @@ export default function ChangeInfo() {
                                     required
                                     fullWidth
                                     id="Phone"
-                                    label="聯絡電話"
+                                    label={buyerInformations.buyerPhone}
+                                    value={buyerPhone} onChange={e => setBuyerPhone(e.target.value)}
                                     name="Phone"
                                     autoComplete="Phone"
                                 />
@@ -81,7 +131,8 @@ export default function ChangeInfo() {
                                     required
                                     fullWidth
                                     id="Email"
-                                    label="聯絡信箱"
+                                    label={buyerInformations.buyerMail}
+                                    value={buyerMail} onChange={e => setBuyerMail(e.target.value)}
                                     name="Email"
                                     autoComplete="Email"
                                 />
@@ -92,7 +143,8 @@ export default function ChangeInfo() {
                                     required
                                     fullWidth
                                     name="Address"
-                                    label="聯絡地址"
+                                    label={buyerInformations.buyerAddress}
+                                    value={buyerAddress} onChange={e => setBuyerAddress(e.target.value)}
                                     type="Address"
                                     id="Address"
                                     autoComplete="Address"
@@ -100,17 +152,21 @@ export default function ChangeInfo() {
                             </Grid>
                         </Grid>
                         <Button
-                            type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            onClick={() => send()}
                         >
+                            <Link to={'/BuyerInfo/'+id} style={{color:'#FFFF'}} >
                             修改
+                            </Link>
                         </Button>
+                        
                     </form>
                 </div>
             </Container>
+            <Footer title="LINE PICK" description="Wish you a wonderful day !" />
         </div>
     );
 }

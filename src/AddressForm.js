@@ -70,7 +70,6 @@ export default function AddressForm(props) {
     .then(res => {
       console.log(res);
       console.log(res.data);
-      //props.hide();
     });
   }
 

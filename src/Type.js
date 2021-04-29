@@ -4,7 +4,6 @@ import axios from 'axios';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
-import LinePickPhoto from './LinePickPhoto';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -15,6 +14,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import Header from './Header';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,66 +50,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-// const productPosts = [
-//   {
-//     product_photo: 'https://source.unsplash.com/random',
-//     product_name: '白色戀人巧克力 ',
-//     product_price: '750',
-//   },
-//   {
-//     product_photo: 'https://source.unsplash.com/random',
-//     product_name: '白色戀人巧克力 ',
-//     product_price: '750',
-//   },
-//   {
-//     product_photo: 'https://source.unsplash.com/random',
-//     product_name: '白色戀人巧克力 ',
-//     product_price: '750',
-//   },
-//   {
-//     product_photo: 'https://source.unsplash.com/random',
-//     product_name: '白色戀人巧克力 ',
-//     product_price: '750',
-//   },
-//   {
-//     product_photo: 'https://source.unsplash.com/random',
-//     product_name: '白色戀人巧克力 ',
-//     product_price: '750',
-//   },
-// ];
-
-// const linePickPhoto = {
-//   image: 'https://source.unsplash.com/random',
-// };
-
 export default function Type() {
-  const sections = [
-    { title: '零食', url: '#' },
-    { title: '生活雜貨', url: '#' },
-    { title: '美妝保養', url: '#' },
-  ];  
+  
   const  [productPosts, setProductPosts] =  useState([]);
+  const { typeId } = useParams();
+  const[sections,setSections]=useState([]);
 
 useEffect(() => {
 
   async function fetchData () {
     console.log ("in Type useEffect:");
-    const result = await axios.get('/Type');
+    console.log ("in TypeId:"+typeId);
+    const result = await axios.get('/SecondType/'+typeId);
+    const type = await axios.get("/Type");
+    setSections(type.data);
     console.log ("result:");
     console.log(result.data);
     setProductPosts(result.data);  
-    console.log ("productPosts:"+productPosts);
+    
   }
   fetchData();
-},[]);
+},[typeId]);
 
-
+  
   const classes = useStyles();
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <Header title="Line Pick" sections={sections} />
+      <Header  sections={sections} />
       <Container className={classes.root}>
       
         <body>

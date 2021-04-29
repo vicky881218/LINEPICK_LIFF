@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import DescriptionIcon from '@material-ui/icons/Description';
 import Divider from '@material-ui/core/Divider';
@@ -20,6 +20,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import axios from 'axios';
+import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
+import Header2 from './Header2';
+import Footer from './Footer';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -144,7 +149,6 @@ const payments = [
 
 export default function Record() {
     const classes = useStyles();
-
     //訂單狀態
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleClick = (event) => {
@@ -165,7 +169,13 @@ export default function Record() {
         setSelectedValue(value);
     };
 
+    const [status, setSatus] = useState("未出貨");
+    function send(){
+        console.log("status"+status);
+    }
     return (
+        <div>
+            <Header2/>
         <body className={classes.body}>
             <div className={classes.container}>
                 <div className={classes.title}>
@@ -178,7 +188,7 @@ export default function Record() {
                         aria-controls="customized-menu"
                         aria-haspopup="true"
                         variant="outlined"
-                        color="primary"
+                        color="primry"
                         onClick={handleClick}
                     >
                         選擇訂單狀態
@@ -194,19 +204,19 @@ export default function Record() {
                             <ListItemIcon>
                                 <EventNoteIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText primary="未出貨" />
+                            <ListItemText value={status} primary="未出貨" onClick={() => send()}/>
                         </StyledMenuItem>
                         <StyledMenuItem>
                             <ListItemIcon>
                                 <LocalShippingIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText primary="運送中" />
+                            <ListItemText value={status} primary="運送中" onClick={() => send()}/>
                         </StyledMenuItem>
                         <StyledMenuItem>
                             <ListItemIcon>
                                 <CheckBoxIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText primary="已完成" />
+                            <ListItemText value={status} primary="已完成" onClick={() => send()}/>
                         </StyledMenuItem>
                     </StyledMenu>
                 </div>
@@ -222,7 +232,7 @@ export default function Record() {
                                     <Card className={classes.card} variant="outlined">
                                         <CardMedia
                                             className={classes.cover}
-                                            image='https://source.unsplash.com/random'
+                                            image='https://firebasestorage.googleapis.com/v0/b/line-pick-5da9a.appspot.com/o/%E7%99%BD%E8%89%B2%E6%88%80%E4%BA%BA.jpg?alt=media&token=79e45aa7-42ee-4fa5-'
                                             title='白色戀人巧克力'
                                         />
                                         <div className={classes.details}>
@@ -238,7 +248,7 @@ export default function Record() {
                                                 </Typography>
                                                 <div>
                                                     <Button variant="text" size="small" className={classes.buyButton} onClick={handleClickOpen}>
-                                                        回購Pick
+                                                        再買一次
                                                     </Button>
                                                     <Repurchase selectedValue={selectedValue} open={open} onClose={handleBuyClose} />
                                                 </div>
@@ -279,5 +289,7 @@ export default function Record() {
                 ))}
             </div>
         </body >
+        <Footer title="LINE PICK" description="Wish you a wonderful day !" />
+        </div>
     );
 }

@@ -156,7 +156,7 @@ function getStepContent(step) {
                 </Typography>
                 <Typography variant="h6" gutterBottom align="center" className={classes.title}>
                   <Button variant="text" className={classes.mainButton}>
-                  <Link to={'/Type'} >
+                  <Link to={'/'} >
                     回首頁
                     </Link>
                 </Button>
@@ -171,16 +171,17 @@ function getStepContent(step) {
                       Back
                     </Button>
                   )}
-                  {/* 
+                  {activeStep === steps.length - 1 ?
                   <Button
                     variant="outlined"
                     color="primary"
                     onClick={handleNext}
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? '送出訂單' : 'Next'}
+                     送出訂單
                     <NavigateNextIcon />
-                  </Button>*/}
+                  </Button>
+                  :''}
                 </div> 
               </React.Fragment>
             )}

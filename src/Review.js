@@ -155,20 +155,6 @@ export default function Review() {
           </Grid>
         </Grid>
       </Grid>
-      <div className={classes.buttons}>
-          {/* <Button onClick={() => sendBack()} className={classes.button}>
-              Back
-            </Button> */}
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => send()}
-            className={classes.button}
-            >
-            Next
-            <NavigateNextIcon />
-          </Button>
-                </div>
     </React.Fragment>
   );
 }

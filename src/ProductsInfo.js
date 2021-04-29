@@ -28,6 +28,8 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import axios from 'axios';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
+import Header2 from './Header2';
+import Footer from './Footer';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -130,7 +132,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function ProductsInfo() {
-
     const classes = useStyles();
     const [checked, setChecked] = React.useState(false);
     const handleChange = () => {
@@ -149,7 +150,7 @@ export default function ProductsInfo() {
         fetchData();
       },[]);
 
-      const [styleValue, setStyleValue] = useState("[]");
+      const [styleValue, setStyleValue] = useState("0 n 0 0");
       useEffect(() => {
         setStyleValue(styleValue)
       }, []);
@@ -168,7 +169,8 @@ export default function ProductsInfo() {
       };
       console.log ("quantity:"+quantity);
 
-      
+      const index=styleValue.split(" ")[3];
+      console.log ("index:"+index);
       const styleValuePrice=styleValue.split(" ")[2];
       console.log ("styleValuePrice:"+styleValuePrice);
       const styleValueName=styleValue.split(" ")[1];
@@ -182,8 +184,42 @@ export default function ProductsInfo() {
       const [buyerId] = useState("Uce8f955020804de0a0e90fec457e4b32");
       const [productId, setProductId] = useState(styleValueId);
       
+  const [productName, setProductName] = useState(productItemPosts.productName);
+  const [productDesc, setProductDesc] = useState(productItemPosts.productDesc);
+  const [productPrice, setProductPrice] = useState(productItemPosts.productPrice);
+  const [productStock, setProductStock] = useState(productItemPosts.productStock);
+  const [productPhoto, setProductPhoto] = useState(productItemPosts.productPhoto);
+  const [productStyle, setProductStyle] = useState(productItemPosts.productStyle);
+  const [discount, setDiscount] = useState(productItemPosts.discount);
 
-      function send(){
+  function send(){
+    console.log("here send");
+    setProductId(styleValueId);
+    //setProductStock(productItemPosts.productStock-quantity);
+    const remainingProductStock=productItemPosts[index].productStock-quantity;
+    console.log("productStock2:"+(productItemPosts[index].productStock-quantity));
+    console.log(productItemPosts[index].productStock-quantity);
+    // setProductDesc()
+    // setProductName();
+//更新庫存
+    const productInfo={
+      productId:styleValueId,
+      productName:productItemPosts[index].productName,
+      productDesc:productItemPosts[index].productDesc,
+      productPrice:productItemPosts[index].productPrice,
+      productStock:remainingProductStock,
+      productPhoto:productItemPosts[index].productPhoto,
+      productStyle:productItemPosts[index].productStyle,
+    };
+    console.log("here");
+    axios.put("/ProductStock/", productInfo)
+    .then(res => {
+        console.log("under");
+      console.log(res);
+      console.log(res.data);
+    });
+  
+      
         setProductId(styleValueId);
         const cartInfo={
           buyerId,
@@ -199,8 +235,10 @@ export default function ProductsInfo() {
       }
 
     return (
+        <div>
+        <Header2/>
         <React.Fragment>
-            <CssBaseline />
+            <CssBaseline />           
             <Container className={classes.root}>
                 <Grid className={classes.grid} item xs={12}>
                      {/* {productItemPosts.map((post) => (  */}
@@ -229,8 +267,8 @@ export default function ProductsInfo() {
                                                     <div className={classes.productStyle}>
                                                     <FormControl component="fieldset">
                                                         <RadioGroup aria-label="payment" value={styleValue} onChange={valueChange}>
-                                                            {productItemPosts.map((item) => (
-                                                                <FormControlLabel key={item.productId} value={item.productId+" "+item.productStyle+" "+item.productPrice} control={<Radio color="primary" />} label={<span>{item.productStyle}  /  {item.productPrice} 元 / 庫存: {item.productStock}</span>} />
+                                                            {productItemPosts.map((item,index) => (
+                                                                <FormControlLabel key={item.productId} value={item.productId+" "+item.productStyle+" "+item.productPrice+" "+index} control={<Radio color="primary" />} label={<span>{item.productStyle}  /  {item.productPrice} 元 / 庫存: {item.productStock}</span>} />
                                                             ))}
                                                         </RadioGroup>
                                                     </FormControl>
@@ -249,12 +287,12 @@ export default function ProductsInfo() {
                                         <div className={classes.total}>
                                             <Button size="small" className={classes.totalIcon}>
                                                 <AttachMoneyIcon />
-                                                {singleProductTotal.isNAN?0:singleProductTotal}元
+                                                {singleProductTotal}元
                                                 </Button>
                                         </div>
                                         <CardActions className={classes.buy}>
                                             <Button className={classes.cardButton} onClick={() => send(styleValueId)} >
-                                            <Link to={'/CartInfo/'+buyerId} >
+                                            <Link to={'/CartProductInfo/'+buyerId} >
                                                 <ShoppingCartIcon />
                                                         Pick
                                                         </Link>
@@ -278,9 +316,11 @@ export default function ProductsInfo() {
                             </Grid>
                         </Grid>
                      {/* ))}   */}
-                </Grid>
+                </Grid>               
             </Container>
         </React.Fragment>
+        <Footer title="LINE PICK" description="Wish you a wonderful day !" />
+        </div>
     );
 
 }

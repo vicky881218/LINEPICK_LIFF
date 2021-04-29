@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,6 +10,11 @@ import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import { useParams } from 'react-router';
+import Header2 from './Header2';
+import Footer from './Footer';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -41,8 +46,52 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InputInfo() {
     const classes = useStyles();
+    const  [buyerInformations, setBuyerInformations] =  useState([]);
+    const { id } = useParams();
+  
+    useEffect(() => {
+  
+      async function fetchData () {     
+        console.log ("buyerId:"+id);
+        const result = await axios.get('/Checkout/'+id);
+        console.log ("result:"+result.data);
+        console.log(result.data);
+        setBuyerInformations(result.data);
+        
+      }
+      fetchData();
+    },[]);
+    
+    const [buyerId] = useState(id);
+    const [buyerName, setBuyerName] = useState(buyerInformations.buyerName);
+    const [buyerPhone, setBuyerPhone] = useState(buyerInformations.buyerPhone);
+    const [buyerMail, setBuyerMail] = useState(buyerInformations.buyerMail);
+    const [buyerAddress, setBuyerAddress] = useState(buyerInformations.buyerAddress);
+  
+    function send(){
+  
+      const buyerInfo={
+        buyerId:id,
+        buyerName,
+        buyerPhone,
+        buyerMail,
+        buyerAddress,
+        pickmoney:buyerInformations.pickmoney,
+        pickpoint:buyerInformations.pickpoint
+      };
+  
+      console.log("in send buyerInfo"+buyerInfo);
+  
+      axios.put("/BuyerInformation/", buyerInfo)
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        //props.hide();
+      });
+    }
     return (
         <div>
+            <Header2/>
             <Container component="main" maxWidth="sm">
                 <CssBaseline />
                 <div className={classes.paper}>
@@ -64,6 +113,7 @@ export default function InputInfo() {
                                     id="Name"
                                     label="姓名"
                                     autoFocus
+                                    value={buyerName} onChange={e => setBuyerName(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -75,6 +125,7 @@ export default function InputInfo() {
                                     label="聯絡電話"
                                     name="Phone"
                                     autoComplete="Phone"
+                                    value={buyerPhone} onChange={e => setBuyerPhone(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -86,6 +137,7 @@ export default function InputInfo() {
                                     label="聯絡信箱"
                                     name="Email"
                                     autoComplete="Email"
+                                    value={buyerMail} onChange={e => setBuyerMail(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -98,6 +150,7 @@ export default function InputInfo() {
                                     type="Address"
                                     id="Address"
                                     autoComplete="Address"
+                                    value={buyerAddress} onChange={e => setBuyerAddress(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -113,12 +166,16 @@ export default function InputInfo() {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            onClick={() => send()}
                         >
+                            <Link to={'/BuyerInfo/'+id} style={{color:'#FFFF'}} >
                             新增
+                            </Link>
                         </Button>
                     </form>
                 </div>
             </Container>
+            <Footer title="LINE PICK" description="Wish you a wonderful day !" />
         </div>
     );
 }

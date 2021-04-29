@@ -10,18 +10,24 @@ import Cart from './Cart';
 import Checkout from './Checkout';
 import BuyerInfo from './BuyerInfo';
 import InputInfo from './InputInfo';
+import ChangeInfo from './ChangeInfo';
+import Pickpoint from './Pickpoint';
+import Record from './Record';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
         <Switch>
             <Route exact path="/" component={App}/>
-            <Route exact path="/Type" component={Type}/>
+            <Route exact path="/SecondType/:typeId" component={Type}/>
             <Route path="/ProductsInfo/:name" component={ProductsInfo}/>
-            <Route path="/CartInfo" component={Cart}/>
+            <Route path="/CartProductInfo/:id" component={Cart}/>
             <Route path="/Checkout/:id" component={Checkout}/>
             <Route path="/BuyerInfo/:id" component={BuyerInfo}/>
-            <Route path="/InputInfo" component={InputInfo}/>
+            <Route path="/InputInfo/:id" component={InputInfo}/>
+            <Route path="/ChangeInfo/:id" component={ChangeInfo}/>
+            <Route path="/Pickpoint/:id" component={Pickpoint}/>
+            <Route path="/Record/:id" component={Record}/>
             </Switch>
     </BrowserRouter>
   </React.StrictMode>,
