@@ -30,7 +30,7 @@ button: {
 export default function AddressForm(props) {
   const classes = useStyles();
   const  [buyerInformations, setBuyerInformations] =  useState([]);
-  const { id } = useParams();
+  const { id,info } = useParams();
 
   useEffect(() => {
 

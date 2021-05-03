@@ -20,7 +20,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import axios from 'axios';
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import Header2 from './Header2';
 import Footer from './Footer';
 
@@ -144,7 +144,8 @@ export default function Cart() {
         console.log("in chooseProduct event:"+event.target.value);  
         console.log("in chooseProduct checked before:"+checked);
         const chooseProduct = event.target.value;
-        console.log("chooseProduct:"+parseInt(chooseProduct.split(" ")[2])); 
+        console.log("chooseProduct:"+parseInt(chooseProduct.split(" ")[2]));
+        
         if(checked[index]==false){
             checked[index]=true;
             total += parseInt(chooseProduct.split(" ")[2]);
@@ -156,7 +157,28 @@ export default function Cart() {
         console.log("in chooseProduct checked after:"+checked);
         setSum((sum)=>sum+total);
     }
-    
+
+    const final = () =>{
+        console.log("in final:");
+        for(var i=0;i<checked.length;i++){
+            if (checked[i]==true){
+                const cartInfo={
+                    cartId:i+1,
+                    buyerId:id,
+                    productId:productItemPosts[i].productId,
+                    quantity:productItemPosts[i].quantity,
+                    checked:checked[i]
+                  };
+          
+                  axios.put("/CartUpdate/", cartInfo)
+                  .then(res => {
+                    console.log(res);
+                    console.log(res.data);
+                  });
+            }
+        }
+    }
+
     return (
         <div>
         <Header2/>      
@@ -235,8 +257,8 @@ export default function Cart() {
                 </Button>
                 </div>
                 <Divider className={classes.divider} />
-                <Button size="large" className={classes.nextStep}>
-                <Link to={'/Checkout/'+id} >
+                <Button size="large" className={classes.nextStep} onClick={final}>
+                <Link to={'/Checkout/'+id}>
                     前往結帳
                     <NavigateNextIcon />
                     </Link>

@@ -147,7 +147,7 @@ const payments = [
     { name: '獲得賴皮指數', detail: '14' },
 ];
 
-export default function Record() {
+export default function RecordType() {
     const classes = useStyles();
     //訂單狀態
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -185,43 +185,6 @@ export default function Record() {
                     賴皮紀錄
                 </div>
                 <Divider className={classes.divider} />
-                {/* <div className={classes.menu}>
-                    <Button
-                        aria-controls="customized-menu"
-                        aria-haspopup="true"
-                        variant="outlined"
-                        color="primry"
-                        onClick={handleClick}
-                    >
-                        選擇訂單狀態
-                    </Button>
-                    <StyledMenu
-                        id="customized-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                        <StyledMenuItem>
-                            <ListItemIcon>
-                                <EventNoteIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText value={status} primary="未出貨" onClick={() => send()}/>
-                        </StyledMenuItem>
-                        <StyledMenuItem>
-                            <ListItemIcon>
-                                <LocalShippingIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText value={status} primary="運送中" onClick={() => send()}/>
-                        </StyledMenuItem>
-                        <StyledMenuItem>
-                            <ListItemIcon>
-                                <CheckBoxIcon fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText value={status} primary="已完成" onClick={() => send()}/>
-                        </StyledMenuItem>
-                    </StyledMenu>
-                </div> */}
                 {orderlist.map((post) => (
                     <div>
                         <Accordion className={classes.expanded}>

@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 const paymentPosts = [
   {
-    title: 'LinePay',
+    title: 'Line Pay',
   },
   {
     title: '信用卡線上付款',
@@ -78,10 +78,11 @@ export default function PaymentForm(props) {
   function send(){
     console.log ("valuePayment in send:"+valuePayment);
     console.log ("valueCoupon in send:"+valueCoupon);
-    setPaymentInformation(valuePayment+" "+valueCoupon);
+    const paymentInformation = valuePayment+"/"+valueCoupon;
+    setPaymentInformation(valuePayment+"/"+valueCoupon);
     props.update(paymentInformation);
   }
-  console.log ("paymentInformation:"+paymentInformation);
+  console.log ("paymentInformation after send:"+paymentInformation);
 
 
   return (

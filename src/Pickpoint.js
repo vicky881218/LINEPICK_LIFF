@@ -89,38 +89,42 @@ export default function Pickpoint() {
     };
     const  [buyerInformations, setBuyerInformations] =  useState([]);
     const { id } = useParams();
-    const [buyerId] = useState(id);
-    const [pickmoney, setPickmoney] = useState(buyerInformations.pickmoney);
-    const [pickpoint, setPickpoint] = useState(buyerInformations.pickpoint);
-  
-    useEffect(() => {
-  
-      async function fetchData () {     
+    //const [buyerId] = useState(id);
+    const [pickmoney, setPickmoney] = useState(100);
+    const [pickpoint, setPickpoint] = useState(100);
+    
+    async function fetchData () {     
         console.log ("buyerId:"+id);
         const result = await axios.get('/Checkout/'+id);
         console.log ("result:"+result.data);
         console.log(result.data);
+        alert("fetched");
         setBuyerInformations(result.data);
-      }
-      fetchData();
-    },[pickmoney,pickpoint]);
+        setPickpoint(result.data.pickpoint);
+        setPickmoney(result.data.pickmoney);
+    }
+
+    useEffect(() => {fetchData()} ,[]);
     
   
     function send(){
+        let temppickpoint=0;
+        let temppickmoney=0;
         if(value=='all'){
             console.log("in all");
             let change = 10*(buyerInformations.pickpoint/100);
             console.log(change);
             console.log(buyerInformations.pickmoney+change);
             //let newpickmoney = buyerInformations.pickmoney;
-            setPickpoint(buyerInformations.pickpoint%100);
-            setPickmoney(()=>buyerInformations.pickmoney+change);
+            temppickpoint = buyerInformations.pickpoint%100;
+            temppickmoney = buyerInformations.pickmoney+change;
         }else{
-            console.log("in one");
-            setPickpoint(buyerInformations.pickpoint-100);
-            setPickmoney(()=>buyerInformations.pickmoney+10);
+            console.log(buyerInformations);
+            //setBuyerInformations((oldvalue)=>)
+            temppickpoint = buyerInformations.pickpoint-100;
+            temppickmoney = buyerInformations.pickmoney+10;
         }
-        
+    
         console.log("after send pickmoney"+pickmoney);
         console.log("after send pickpoint"+pickpoint);
       const buyerInfo={
@@ -129,8 +133,8 @@ export default function Pickpoint() {
         buyerPhone:buyerInformations.buyerPhone,
         buyerMail:buyerInformations.buyerMail,
         buyerAddress:buyerInformations.buyerAddress,
-        pickmoney,
-        pickpoint,
+        pickmoney:temppickmoney,
+        pickpoint:temppickpoint,
       };
   
       console.log("in send buyerInfo"+buyerInfo);
@@ -138,6 +142,11 @@ export default function Pickpoint() {
       .then(res => {
         console.log(res);
         console.log(res.data);
+        alert('Successful!');
+        setPickpoint(temppickpoint);
+        setPickmoney(temppickmoney);
+        fetchData();
+
       });
      }
 
@@ -156,12 +165,12 @@ export default function Pickpoint() {
                     <List>
                         <ListItem alignItems="flex-start">
                             <ListItemText>
-                                <div className={classes.itemText}>您的賴皮指數:{buyerInformations.pickpoint}點</div>
+                                <div className={classes.itemText}>您的賴皮指數:{pickpoint}點</div>
                             </ListItemText>
                         </ListItem>
                         <ListItem alignItems="flex-start">
                             <ListItemText >
-                                <div className={classes.itemText}>您的賴皮購物金:{buyerInformations.pickmoney}元</div>
+                                <div className={classes.itemText}>您的賴皮購物金:{pickmoney}元</div>
                             </ListItemText>
                         </ListItem>
                     </List>

@@ -14,6 +14,9 @@ import PaymentForm from './PaymentForm';
 import Review from './Review';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router';
+import Header2 from './Header2';
+import Footer from './Footer';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -78,7 +81,7 @@ const steps = ['基本資訊', '付款資訊', '訂單明細'];
 export default function Checkout() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-
+  const  {buyerId} = useParams();
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -99,10 +102,6 @@ const setBuyerInfo = (buyerInfo)=> {
 }
 console.log("temporaryBuyerInfo");
 console.log(temporaryBuyerInfo);
-// const thisBuyerName = temporaryPaymentInfo;
-// const thisBuyerPhone = temporaryPaymentInfo;
-// const thisBuyerMail  = temporaryPaymentInfo;
-// const thisBuyerAddress  = temporaryPaymentInfo;
 
 const setPaymentInfo = (paymentInformation)=> {
   console.log("update form PaymentForm");
@@ -112,8 +111,7 @@ const setPaymentInfo = (paymentInformation)=> {
 }
 console.log("temporaryPaymentInfo");
 console.log(temporaryPaymentInfo);
-// const selectPayment = temporaryPaymentInfo.splice()[0];
-// const usePickMoney = temporaryPaymentInfo.splice()[1];
+
 
 function getStepContent(step) {
   switch (step) {
@@ -122,13 +120,15 @@ function getStepContent(step) {
     case 1:
       return <PaymentForm update={setPaymentInfo}/>;
     case 2:
-      return <Review />;
+      return <Review data={temporaryPaymentInfo}/>;
     default:
       throw new Error('Unknown step');
   }
 }
 
   return (
+    <div>
+    <Header2/> 
     <React.Fragment>
       <CssBaseline />
       <main className={classes.layout}>
@@ -189,5 +189,7 @@ function getStepContent(step) {
         </Paper>
       </main>
     </React.Fragment>
+    <Footer/>
+    </div>
   );
 }

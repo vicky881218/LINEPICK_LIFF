@@ -16,18 +16,8 @@ const products = [
   { name: '韓國星巴克櫻花杯', style: '雙層玻璃杯', quantity: 1, price: '780' },
 ];
 
-const payments = [
-  { name: '付款方式', detail: 'Line Pay' },
-  { name: '使用購物金', detail: '100' },
-  { name: '剩餘購物金', detail: '0' },
-];
 
-const InfoPosts = [
-  { name: '姓名', info: 'Celine' },
-  { name: '聯絡電話:', info: '0912345678' },
-  { name: '電子信箱:', info: 'c@gmail.com' },
-  { name: '聯絡地址:', info: 'abcde' },
-];
+
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -57,27 +47,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Review() {
+export default function Review(prop) {
+  console.log ("in Review:");
+  console.log ("prop:"+prop.data);
+  const payType = prop.data.split('/')[0];
+  const useType = prop.data.split('/')[1];
+  console.log ("payType:"+payType);
+  console.log ("useType:"+useType);
   const classes = useStyles();
   const { id} = useParams();
   function send(){
   }
+
+  const payments = [
+    { name: '付款方式', detail: payType },
+    { name: '使用購物金', detail: '100' },
+    { name: '剩餘購物金', detail: '0' },
+  ];
+
+
   // console.log ("in Review:");
   // console.log ("id:"+id);
   // console.log ("paymentInformation:");
-  
-
-  // useEffect(() => {
-  //   async function fetchData () {  
-  //     console.log ("id:"+id);
-  //     const result = await axios.get('/Checkout/'+id);
-  //     console.log ("result:"+result.data);
-  //     console.log(result.data);
-  //     setPickmoney(result.data); 
-  //   }
-  //   fetchData();
-  // },[]);
-
+  const  [buyerInformation, setBuyerInformation] =  useState([]);
+  useEffect(() => {
+    async function fetchData () {  
+      console.log ("id:"+id);
+      const result = await axios.get('/Checkout/'+id);
+      console.log ("result:"+result.data);
+      console.log(result.data);
+      setBuyerInformation(result.data); 
+    }
+    fetchData();
+  },[]);
+  const InfoPosts = [
+    { name: '姓名:', info: buyerInformation.BuyerName },
+    { name: '聯絡電話:', info: buyerInformation.BuyerPhone },
+    { name: '電子信箱:', info: buyerInformation.BuyerMail },
+    { name: '聯絡地址:', info: buyerInformation.BuyerAddress },
+  ];
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom className={classes.title}>
@@ -150,6 +158,15 @@ export default function Review() {
                 <Grid item xs={6}>
                   <Typography gutterBottom>{payment.detail}</Typography>
                 </Grid>
+                {/* <Grid item xs={9}>
+                  <Typography gutterBottom>付款方式: {payType}</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography gutterBottom>使用購物金: {payType}</Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography gutterBottom>剩餘購物金: {payType}</Typography>
+                </Grid> */}
               </React.Fragment>
             ))}
           </Grid>

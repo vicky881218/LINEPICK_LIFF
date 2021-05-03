@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import clsx from 'clsx';
-
+import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -98,9 +98,10 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function Header2() {
+export default function RecordHeader(props) {
   const classes = useStyles();
   const theme = useTheme();
+  const { sections} = props;
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -119,7 +120,7 @@ export default function Header2() {
       setBuyerInformations(result.data);
       
     }
-    // fetchData();
+    fetchData();
   },[]);
 
   return (
@@ -159,8 +160,25 @@ export default function Header2() {
             <ShoppingCartIcon fontSize="medium" className={classes.icon} />
             </Link>
           </Button>
-          {/* <div className={classes.buttonSecondaryFont}>賴皮指數:{buyerInformations.pickpoint}點</div> */}
+          <div className={classes.buttonSecondaryFont}>賴皮指數:{buyerInformations.pickpoint}點</div>
         </div>
+      </Toolbar>
+      <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
+        {sections.map((section) => (
+          <Button>
+          <Link to={'/RecordType/'+section.typeName}
+            color="inherit"
+            noWrap
+            key={section.typeId}
+            value={section.typeId}
+            variant="body2"
+            href={section.url}
+            className={classes.toolbarLink}
+          >
+            {section.typeName}
+          </Link>
+          </Button>
+        ))}
       </Toolbar>
       <Drawer
         className={classes.drawer}
@@ -196,3 +214,8 @@ export default function Header2() {
     </React.Fragment>
   );
 }
+
+RecordHeader.propTypes = {
+  sections: PropTypes.array,
+  title: PropTypes.string,
+};
