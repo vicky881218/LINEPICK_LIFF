@@ -189,7 +189,7 @@ export default function Header2() {
           </ListItem>
           <ListItem>
             <ListItemIcon><DescriptionIcon fontSize="medium" className={classes.drawerFont}/></ListItemIcon>
-            <ListItemText className={classes.drawerFont}><Button><Link to={'/Record/'+buyerId} >賴皮紀錄</Link></Button></ListItemText>
+            <ListItemText className={classes.drawerFont}><Button><Link to={'/BuyerAllOrderlist/'+buyerId} >賴皮紀錄</Link></Button></ListItemText>
           </ListItem>
         </List>
       </Drawer>

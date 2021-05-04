@@ -13,7 +13,8 @@ import InputInfo from './InputInfo';
 import ChangeInfo from './ChangeInfo';
 import Pickpoint from './Pickpoint';
 import Record from './Record';
-
+import RecordType from './RecordType';
+import RecordContent from './RecordContent';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
@@ -27,7 +28,9 @@ ReactDOM.render(
             <Route path="/InputInfo/:id" component={InputInfo}/>
             <Route path="/ChangeInfo/:id" component={ChangeInfo}/>
             <Route path="/Pickpoint/:id" component={Pickpoint}/>
-            <Route path="/Record/:id" component={Record}/>
+            <Route path="/BuyerAllOrderlist/:id" component={Record}/>
+            <Route path="/RecordType/:orderListStatus/:id" component={RecordType}/>
+            <Route path="/OrderlistContent/:id" component={RecordContent}/>
             </Switch>
     </BrowserRouter>
   </React.StrictMode>,

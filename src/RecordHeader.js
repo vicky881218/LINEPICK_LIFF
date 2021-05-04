@@ -111,7 +111,7 @@ export default function RecordHeader(props) {
   };
 
   const  [buyerInformations, setBuyerInformations] =  useState([]);
-  const [buyerId]= useState("Uce8f955020804de0a0e90fec457e4b32");
+  const [buyerId]= useState("Ub19b06294bf055b1a7574919684b7c32");
   useEffect(() => {
     async function fetchData () {     
       const result = await axios.get('/Checkout/'+buyerId);
@@ -166,7 +166,7 @@ export default function RecordHeader(props) {
       <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
         {sections.map((section) => (
           <Button>
-          <Link to={'/RecordType/'+section.typeName}
+          <Link to={'/RecordType/'+section.typeName+"/"+buyerId}
             color="inherit"
             noWrap
             key={section.typeId}
@@ -207,7 +207,7 @@ export default function RecordHeader(props) {
           </ListItem>
           <ListItem>
             <ListItemIcon><DescriptionIcon fontSize="medium" className={classes.drawerFont}/></ListItemIcon>
-            <ListItemText className={classes.drawerFont}><Button><Link to={'/Record/'+buyerId} >賴皮紀錄</Link></Button></ListItemText>
+            <ListItemText className={classes.drawerFont}><Button><Link to={'/BuyerAllOrderlist/'+buyerId} >賴皮紀錄</Link></Button></ListItemText>
           </ListItem>
         </List>
       </Drawer>
