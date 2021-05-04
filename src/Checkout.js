@@ -12,11 +12,11 @@ import Typography from '@material-ui/core/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 import Header2 from './Header2';
 import Footer from './Footer';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -81,10 +81,10 @@ const steps = ['基本資訊', '付款資訊', '訂單明細'];
 export default function Checkout() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const  {buyerId} = useParams();
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
+  const  {id} = useParams();
+  // const handleNext = () => {
+  //   setActiveStep(activeStep + 1);
+  // };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
@@ -92,6 +92,20 @@ export default function Checkout() {
 
   const [temporaryBuyerInfo,setTemporaryBuyerInfo] = useState([]);
   const [temporaryPaymentInfo,setTemporaryPaymentInfo] = useState([]);
+  const [receivePickpoint,setReceivePickpoint] = useState(0);
+
+  const  [buyerInformations, setBuyerInformations] =  useState([]);
+
+  useEffect(() => {
+    async function fetchData () {     
+      console.log ("buyerId:"+id);
+      const result = await axios.get('/Checkout/'+id);
+      console.log ("result:"+result.data);
+      console.log(result.data);
+      setBuyerInformations(result.data);
+    }
+    fetchData();
+  },[activeStep]);
   
 //等同於function setBuyerInfo(buyerInfo){}
 const setBuyerInfo = (buyerInfo)=> {
@@ -108,9 +122,39 @@ const setPaymentInfo = (paymentInformation)=> {
   console.log(paymentInformation);
   setTemporaryPaymentInfo(paymentInformation);
   setActiveStep(activeStep + 1);
+
 }
 console.log("temporaryPaymentInfo");
 console.log(temporaryPaymentInfo);
+
+const setReviewInfo = (reviewInfo)=> {
+  console.log("back to checkout");
+  console.log(reviewInfo);
+  const realPay = reviewInfo.split(" ")[0];
+  const restPickmoney = reviewInfo.split(" ")[1];
+  var receivePickpoint=10*(Math.floor(realPay/100)); 
+  console.log("receivePickpoint"+receivePickpoint);
+  console.log("restPickmoney"+restPickmoney);
+  setReceivePickpoint(receivePickpoint);
+  setActiveStep(activeStep + 1);
+  var totalPickmoney = buyerInformations.pickpoint + receivePickpoint;
+  const buyerInfomation={
+    buyerId:id,
+    buyerName:buyerInformations.buyerName,
+    buyerPhone:buyerInformations.buyerPhone,
+    buyerMail:buyerInformations.buyerMail,
+    buyerAddress:buyerInformations.buyerAddress,
+    pickmoney:restPickmoney,
+    pickpoint:totalPickmoney
+  };
+  console.log("in send buyerInfo"+buyerInfomation);
+
+  axios.put("/BuyerInformation/", buyerInfomation)
+  .then(res => {
+    console.log(res);
+    console.log(res.data);
+  });
+}
 
 
 function getStepContent(step) {
@@ -120,7 +164,7 @@ function getStepContent(step) {
     case 1:
       return <PaymentForm update={setPaymentInfo}/>;
     case 2:
-      return <Review data={temporaryPaymentInfo}/>;
+      return <Review update={setReviewInfo} data={temporaryPaymentInfo}/>;
     default:
       throw new Error('Unknown step');
   }
@@ -152,7 +196,7 @@ function getStepContent(step) {
                   LINE PICK 感謝您的購買
                 </Typography>
                 <Typography variant="h6" gutterBottom align="center" className={classes.subtitle}>
-                  此筆訂單可獲得的賴皮指數: 14 點
+                  此筆訂單可獲得的賴皮指數: {receivePickpoint} 點
                 </Typography>
                 <Typography variant="h6" gutterBottom align="center" className={classes.title}>
                   <Button variant="text" className={classes.mainButton}>
@@ -171,17 +215,6 @@ function getStepContent(step) {
                       Back
                     </Button>
                   )}
-                  {activeStep === steps.length - 1 ?
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                     送出訂單
-                    <NavigateNextIcon />
-                  </Button>
-                  :''}
                 </div> 
               </React.Fragment>
             )}
