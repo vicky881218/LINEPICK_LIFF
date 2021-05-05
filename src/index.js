@@ -17,7 +17,7 @@ import RecordType from './RecordType';
 import RecordContent from './RecordContent';
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename='/screen'>
         <Switch>
             <Route exact path="/" component={App}/>
             <Route exact path="/SecondType/:typeId" component={Type}/>
