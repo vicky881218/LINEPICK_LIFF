@@ -17,12 +17,6 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-
-const products = [
-    { name: '白色戀人巧克力', style: '黑巧克力(24入)', photo: 'https://source.unsplash.com/random', price: '700' },
-    { name: '韓國星巴克櫻花杯', style: '雙層玻璃杯', photo: 'https://source.unsplash.com/random', price: '780' },
-];
-
 const useStyles = makeStyles({
     content: {
         padding: 5,
@@ -110,7 +104,7 @@ export default function Repurchase(props) {
       }
     
   
-      axios.post("/CartAdd/", RepurchaseInfo)
+      axios.post("/CartAddAgain/", RepurchaseInfo)
       .then(res => {
           console.log(res);
           console.log(res.data);

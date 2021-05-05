@@ -163,7 +163,7 @@ export default function Cart() {
         for(var i=0;i<checked.length;i++){
             if (checked[i]==true){
                 const cartInfo={
-                    cartId:i+1,
+                    cartId:productItemPosts[i].cartId,
                     buyerId:id,
                     productId:productItemPosts[i].productId,
                     quantity:productItemPosts[i].quantity,
