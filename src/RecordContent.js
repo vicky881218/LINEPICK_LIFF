@@ -136,38 +136,32 @@ const StyledMenuItem = withStyles((theme) => ({
     },
 }))(MenuItem);
 
-const orderlist = [{ id: '1', date:'3/1' }, { id: '2', date:'4/7' }];
-const products = [
-    { name: '白色戀人巧克力', style: '黑巧克力(24入)', photo: 'https://source.unsplash.com/random', quantity: 1, price: '700' },
-    { name: '韓國星巴克櫻花杯', style: '雙層玻璃杯', photo: 'https://source.unsplash.com/random', quantity: 1, price: '780' },
-];
-const payments = [
-    { name: '付款方式', detail: 'Line Pay' },
-    { name: '使用購物金', detail: '100' },
-    { name: '獲得賴皮指數', detail: '14' },
-];
 
-export default function RecordType() {
+
+export default function Record() {
     const classes = useStyles();
-    //訂單狀態
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const { orderListStatus,id } = useParams();
+    const { id } = useParams();
     const [orderContent, setOrderContent] = useState([""]);
+    
+    useEffect(() => {
+        async function fetchData () {  
+        console.log("buyerId:"+id);   
+          const oneNameAllStyle = await axios.get('/OrderlistContent/'+id);
+          setOrderContent(oneNameAllStyle.data);  
+          console.log("order:"+oneNameAllStyle.data[0].orderListId);
+        }
+        fetchData();
+      },[]);
+    //訂單狀態
+    console.log("order2:"+orderContent[0].orderListId);
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
         setAnchorEl(null);
     };
-    useEffect(() => {
-        async function fetchData () {  
-        console.log("buyerId:"+id);   
-          const oneNameAllStyle = await axios.get('/RecordType/'+orderListStatus+'/'+id);
-          setOrderContent(oneNameAllStyle.data);  
-        //   console.log("orderppp:"+oneNameAllStyle.data[0].orderListId);
-        }
-        fetchData();
-      },[orderListStatus]);
+
     //回購彈出選單
     const [open, setOpen] = React.useState(false);
     const [selectedValue, setSelectedValue] = React.useState("");
@@ -187,54 +181,74 @@ export default function RecordType() {
 
     return (
         <div>
-            <RecordHeader sections={sections} />
-            <body className={classes.body}>
-                <div className={classes.container}>
-                    <div className={classes.title}>
-                        <DescriptionIcon fontSize="medium" />
+            <RecordHeader sections={sections}/>
+        <body className={classes.body}>
+            <div className={classes.container}>
+                <div className={classes.title}>
+                    <DescriptionIcon fontSize="medium" />
                     賴皮紀錄
                 </div>
-                    <Divider className={classes.divider} />
-
-                    {orderContent.map((buyerorder) => (
+                <Divider className={classes.divider} />
+             
+                
+                    <div>
                         <div>
-                           
-                                    <div className={classes.cards}>
-                                        <Card className={classes.card} variant="outlined">
-
-                                            <div className={classes.details}>
-                                                <CardContent className={classes.content}>
-                                                    <Typography variant="subtitle1" >
-                                                        {<span>訂單編號: {buyerorder.orderListId}</span>}
-                                                    </Typography>
-                                                    <Typography variant="subtitle1" >
-                                                        {<span>購買日期: {buyerorder.orderDate}</span>}
-                                                    </Typography>
-                                                    <Typography variant="subtitle1">
-                                                        {<span>總金額: {buyerorder.orderListPayment}元</span>}
-                                                    </Typography>
-                                                    <div>
-                                                        {/* <Button variant="text" size="small" className={classes.buyButton} onClick={handleClickOpen}>
-                                                            再買一次
-                                                    </Button> */}
-                                                        <Button variant="text" size="small" className={classes.buyButton}>
-                                                           
-                                                        <Link to={'/OrderlistContent/' + buyerorder.orderListId}>詳細資訊</Link>
-
-                                                           
-                                                        </Button>
-                                                        {/* <Repurchase selectedValue={selectedValue} open={open} onClose={handleBuyClose} /> */}
-                                                    </div>
-                                                </CardContent>
-                                            </div>
-                                        </Card>
+                                <div className={classes.cards}>
+                                    <Card className={classes.card} variant="outlined">
+                                     
+                                        <div className={classes.details}>
+                                            <CardContent className={classes.content}>
+                                                <Typography variant="subtitle1" >
+                                                    {<span>訂單編號: {orderContent[0].orderListId}</span>}
+                                                </Typography>
+                                                <Typography variant="subtitle1" >
+                                                    {<span>購買日期: {orderContent[0].orderDate}</span>}
+                                                </Typography>
+                                                <Typography variant="subtitle1">
+                                                    {<span>總金額: {orderContent[0].orderListPayment}元</span>}
+                                                </Typography>
+                                                <div>
+                                                    <Button variant="text" size="small" className={classes.buyButton} onClick={handleClickOpen}>
+                                                        再買一次
+                                                    </Button>
+                                                    
+                                                    <Repurchase selectedValue={selectedValue} open={open} onClose={handleBuyClose} />
+                                                </div>
+                                            </CardContent>
+                                        </div>
+                                    </Card>
+                                </div>   
+                          </div>
+                          {orderContent.map((buyerorder) => (
+                                    <div>
+                                        <Typography>
+                                            <ListItem className={classes.listItem} key={buyerorder.productName}>
+                                                <ListItemText primary={buyerorder.productName} secondary={buyerorder.productStyle} />
+                                                <div className={classes.priceItem}>
+                                                    <Typography variant="body2">{<span> x {buyerorder.orderItemQuantity}</span>}</Typography>
+                                                    <Typography variant="body2">{<span> $ {buyerorder.productPrice}</span>}</Typography>
+                                                </div>
+                                            </ListItem>
+                                        </Typography>
                                     </div>
-                                
-                        </div>
-                    ))}
-                </div>
-            </body >
-            <Footer title="LINE PICK" description="Wish you a wonderful day !" />
+                         ))}
+                               
+                                    <div>
+                                        <Typography>
+                                            <ListItem className={classes.listItem} key={orderContent[0].payType}>
+                                                <ListItemText primary={orderContent[0].payType} />
+                                                <div className={classes.priceItem}>
+                                                    <Typography variant="body2">{orderContent[0].payStatus}</Typography>
+                                                </div>
+                                            </ListItem>
+                                        </Typography>
+                                    </div>
+                     
+                    </div>
+                
+            </div>
+        </body >
+        <Footer title="LINE PICK" description="Wish you a wonderful day !" />
         </div>
     );
 }
