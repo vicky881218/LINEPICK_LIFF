@@ -12,7 +12,7 @@ import axios from 'axios';
 import { useParams } from 'react-router';
 import Header2 from './Header2';
 import Footer from './Footer';
-import { Link } from 'react-router-dom';
+import {useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -60,20 +60,14 @@ export default function ChangeInfo() {
       fetchData();
     },[]);
     
-    const [buyerId] = useState(id);
-    const [buyerName, setBuyerName] = useState(buyerInformations.buyerName);
-    const [buyerPhone, setBuyerPhone] = useState(buyerInformations.buyerPhone);
-    const [buyerMail, setBuyerMail] = useState(buyerInformations.buyerMail);
-    const [buyerAddress, setBuyerAddress] = useState(buyerInformations.buyerAddress);
-  
+    const history = useHistory();
     function send(){
-  
       const buyerInfo={
         buyerId:id,
-        buyerName,
-        buyerPhone,
-        buyerMail,
-        buyerAddress,
+        buyerName:buyerInformations.buyerName,
+        buyerPhone:buyerInformations.buyerPhone,
+        buyerMail:buyerInformations.buyerMail,
+        buyerAddress:buyerInformations.buyerAddress,
         pickmoney:buyerInformations.pickmoney,
         pickpoint:buyerInformations.pickpoint
       };
@@ -85,6 +79,8 @@ export default function ChangeInfo() {
         console.log(res);
         console.log(res.data);
       });
+
+      history.push('/BuyerInfo/'+id);
     }
     return (
         <div>
@@ -109,7 +105,7 @@ export default function ChangeInfo() {
                                     fullWidth
                                     id="Name"
                                     label={buyerInformations.buyerName}
-                                    value={buyerName} onChange={e => setBuyerName(e.target.value)}
+                                    value={buyerInformations.buyerName} onChange={e => setBuyerInformations({...buyerInformations,buyerName :e.target.value})}
                                     autoFocus
                                 />
                             </Grid>
@@ -120,7 +116,7 @@ export default function ChangeInfo() {
                                     fullWidth
                                     id="Phone"
                                     label={buyerInformations.buyerPhone}
-                                    value={buyerPhone} onChange={e => setBuyerPhone(e.target.value)}
+                                    value={buyerInformations.buyerPhone} onChange={e => setBuyerInformations({...buyerInformations,buyerPhone :e.target.value})}
                                     name="Phone"
                                     autoComplete="Phone"
                                 />
@@ -132,7 +128,7 @@ export default function ChangeInfo() {
                                     fullWidth
                                     id="Email"
                                     label={buyerInformations.buyerMail}
-                                    value={buyerMail} onChange={e => setBuyerMail(e.target.value)}
+                                    value={buyerInformations.buyerMail} onChange={e => setBuyerInformations({...buyerInformations,buyerMail :e.target.value})}
                                     name="Email"
                                     autoComplete="Email"
                                 />
@@ -144,7 +140,7 @@ export default function ChangeInfo() {
                                     fullWidth
                                     name="Address"
                                     label={buyerInformations.buyerAddress}
-                                    value={buyerAddress} onChange={e => setBuyerAddress(e.target.value)}
+                                    value={buyerInformations.buyerAddress} onChange={e => setBuyerInformations({...buyerInformations,buyerAddress :e.target.value})}
                                     type="Address"
                                     id="Address"
                                     autoComplete="Address"
@@ -158,9 +154,7 @@ export default function ChangeInfo() {
                             className={classes.submit}
                             onClick={() => send()}
                         >
-                            <Link to={'/BuyerInfo/'+id} style={{color:'#FFFF'}} >
                             修改
-                            </Link>
                         </Button>
                         
                     </form>

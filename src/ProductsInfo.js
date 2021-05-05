@@ -179,8 +179,6 @@ export default function ProductsInfo() {
       console.log ("styleValueId:"+styleValueId);
       const singleProductTotal=styleValuePrice*quantity;
       
-
-
       const [buyerId] = useState("Uce8f955020804de0a0e90fec457e4b32");
       const [productId, setProductId] = useState(styleValueId);
       
@@ -190,38 +188,12 @@ export default function ProductsInfo() {
   const [productStock, setProductStock] = useState(productItemPosts.productStock);
   const [productPhoto, setProductPhoto] = useState(productItemPosts.productPhoto);
   const [productStyle, setProductStyle] = useState(productItemPosts.productStyle);
-  const [discount, setDiscount] = useState(productItemPosts.discount);
+
 
   function send(){
     console.log("here send");
     setProductId(styleValueId);
-    //setProductStock(productItemPosts.productStock-quantity);
-    const remainingProductStock=productItemPosts[index].productStock-quantity;
-    console.log("productStock2:"+(productItemPosts[index].productStock-quantity));
-    console.log(productItemPosts[index].productStock-quantity);
-    // setProductDesc()
-    // setProductName();
-//更新庫存
-    const productInfo={
-      productId:styleValueId,
-      productName:productItemPosts[index].productName,
-      productDesc:productItemPosts[index].productDesc,
-      productPrice:productItemPosts[index].productPrice,
-      productStock:remainingProductStock,
-      productPhoto:productItemPosts[index].productPhoto,
-      productStyle:productItemPosts[index].productStyle,
-    };
-    console.log("here");
-    axios.put("/ProductStock/", productInfo)
-    .then(res => {
-        console.log("under");
-      console.log(res);
-      console.log(res.data);
-    });
-  
-      
-        setProductId(styleValueId);
-        const cartInfo={
+    const cartInfo={
           buyerId,
           productId:styleValueId,
           quantity,
@@ -241,7 +213,6 @@ export default function ProductsInfo() {
             <CssBaseline />           
             <Container className={classes.root}>
                 <Grid className={classes.grid} item xs={12}>
-                     {/* {productItemPosts.map((post) => (  */}
                         <Grid item  item xs={12}>
                             <div className={classes.productTitle}>
                                 <Typography variant="h5" style={{ fontWeight: "bold" }}>
@@ -315,7 +286,6 @@ export default function ProductsInfo() {
                                 ))}
                             </Grid>
                         </Grid>
-                     {/* ))}   */}
                 </Grid>               
             </Container>
         </React.Fragment>

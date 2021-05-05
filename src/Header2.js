@@ -119,7 +119,7 @@ export default function Header2() {
       setBuyerInformations(result.data);
       
     }
-    // fetchData();
+    fetchData();
   },[]);
 
   return (

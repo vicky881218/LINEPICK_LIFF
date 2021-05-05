@@ -160,7 +160,7 @@ export default function Header(props) {
             <ShoppingCartIcon fontSize="medium" className={classes.icon} />
             </Link>
           </Button>
-          <div className={classes.buttonSecondaryFont}>賴皮指數:{buyerInformations.pickpoint}點</div>
+          {/* <div className={classes.buttonSecondaryFont}>賴皮指數:{buyerInformations.pickpoint}點</div> */}
         </div>
       </Toolbar>
       <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>

@@ -14,7 +14,7 @@ import axios from 'axios';
 import { useParams } from 'react-router';
 import Header2 from './Header2';
 import Footer from './Footer';
-import { Link } from 'react-router-dom';
+import { Link,useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -67,7 +67,10 @@ export default function InputInfo() {
     const [buyerPhone, setBuyerPhone] = useState(buyerInformations.buyerPhone);
     const [buyerMail, setBuyerMail] = useState(buyerInformations.buyerMail);
     const [buyerAddress, setBuyerAddress] = useState(buyerInformations.buyerAddress);
-  
+    const [pickpoint, setPickpoint] = useState(buyerInformations.pickpoint);
+    const [pickmoney, setPickmoney] = useState(buyerInformations.pickmoney);
+    const history = useHistory();
+
     function send(){
   
       const buyerInfo={
@@ -88,6 +91,8 @@ export default function InputInfo() {
         console.log(res.data);
         //props.hide();
       });
+
+      history.push('/BuyerInfo/'+id);
     }
     return (
         <div>
@@ -168,9 +173,9 @@ export default function InputInfo() {
                             className={classes.submit}
                             onClick={() => send()}
                         >
-                            <Link to={'/BuyerInfo/'+id} style={{color:'#FFFF'}} >
+                            {/* <Link to={'/BuyerInfo/'+id} style={{color:'#FFFF'}} > */}
                             新增
-                            </Link>
+                            {/* </Link> */}
                         </Button>
                     </form>
                 </div>

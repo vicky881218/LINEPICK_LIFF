@@ -44,21 +44,15 @@ export default function AddressForm(props) {
     }
     fetchData();
   },[]);
-  
-  const [buyerId] = useState(id);
-  const [buyerName, setBuyerName] = useState(buyerInformations.buyerName);
-  const [buyerPhone, setBuyerPhone] = useState(buyerInformations.buyerPhone);
-  const [buyerMail, setBuyerMail] = useState(buyerInformations.buyerMail);
-  const [buyerAddress, setBuyerAddress] = useState(buyerInformations.buyerAddress);
 
   function send(){
 
     const buyerInfo={
-      buyerId,
-      buyerName,
-      buyerPhone,
-      buyerMail,
-      buyerAddress,
+      buyerId:id,
+      buyerName:buyerInformations.buyerName,
+      buyerPhone:buyerInformations.buyerPhone,
+      buyerMail:buyerInformations.buyerMail,
+      buyerAddress:buyerInformations.buyerAddress,
       pickmoney:buyerInformations.pickmoney,
       pickpoint:buyerInformations.pickpoint
     };
@@ -86,7 +80,7 @@ if (buyerInformations.buyerPhone==null || buyerInformations.buyerPhone==""){
             id="buyerName"
             name="姓名"
             label="姓名"
-            value={buyerName} onChange={e => setBuyerName(e.target.value)}
+            value={buyerInformations.buyerName} onChange={e => setBuyerInformations({...buyerInformations,buyerName :e.target.value})}
             fullWidth
             autoComplete="given-name"
           />
@@ -97,7 +91,7 @@ if (buyerInformations.buyerPhone==null || buyerInformations.buyerPhone==""){
             id="buyerPhone"
             name="購買者電話號碼"
             label="購買者電話號碼"
-            value={buyerPhone} onChange={e => setBuyerPhone(e.target.value)}
+            value={buyerInformations.buyerPhone} onChange={e => setBuyerInformations({...buyerInformations,buyerPhone :e.target.value})}
             fullWidth
             autoComplete="tel"
           />
@@ -108,7 +102,7 @@ if (buyerInformations.buyerPhone==null || buyerInformations.buyerPhone==""){
             id="buyerMail"
             name="購買者電子郵件"
             label="購買者電子郵件"
-            value={buyerMail} onChange={e => setBuyerMail(e.target.value)}
+            value={buyerInformations.buyerMail} onChange={e => setBuyerInformations({...buyerInformations,buyerMail :e.target.value})}
             fullWidth
             autoComplete="email"
           />
@@ -118,7 +112,7 @@ if (buyerInformations.buyerPhone==null || buyerInformations.buyerPhone==""){
             id="buyerAddress"
             name="地址"
             label="地址"
-            value={buyerAddress} onChange={e => setBuyerAddress(e.target.value)}
+            value={buyerInformations.buyerAddress} onChange={e => setBuyerInformations({...buyerInformations,buyerAddress :e.target.value})}
             fullWidth
             autoComplete="address-line1"
           />
@@ -157,7 +151,7 @@ if (buyerInformations.buyerPhone==null || buyerInformations.buyerPhone==""){
             id="buyerName"
             name="姓名"
             label={buyerInformations.buyerName}
-            value={buyerName} onChange={e => setBuyerName(e.target.value)}
+            value={buyerInformations.buyerName} onChange={e => setBuyerInformations({...buyerInformations,buyerName :e.target.value})}
             fullWidth
             autoComplete="given-name"
           />
@@ -168,7 +162,7 @@ if (buyerInformations.buyerPhone==null || buyerInformations.buyerPhone==""){
             id="buyerPhone"
             name="購買者電話號碼"
             label={buyerInformations.buyerPhone}
-            value={buyerPhone} onChange={e => setBuyerPhone(e.target.value)}
+            value={buyerInformations.buyerPhone} onChange={e => setBuyerInformations({...buyerInformations,buyerPhone :e.target.value})}
             fullWidth
             autoComplete="tel"
           />
@@ -179,7 +173,7 @@ if (buyerInformations.buyerPhone==null || buyerInformations.buyerPhone==""){
             id="buyerMail"
             name="購買者電子郵件"
             label={buyerInformations.buyerMail}
-            value={buyerMail} onChange={e => setBuyerMail(e.target.value)}
+            value={buyerInformations.buyerMail} onChange={e => setBuyerInformations({...buyerInformations,buyerMail :e.target.value})}
             fullWidth
             autoComplete="email"
           />
@@ -189,7 +183,7 @@ if (buyerInformations.buyerPhone==null || buyerInformations.buyerPhone==""){
             id="buyerAddress"
             name="地址"
             label={buyerInformations.buyerAddress}
-            value={buyerAddress} onChange={e => setBuyerAddress(e.target.value)}
+            value={buyerInformations.buyerAddress} onChange={e => setBuyerInformations({...buyerInformations,buyerAddress :e.target.value})}
             fullWidth
             autoComplete="address-line1"
           />

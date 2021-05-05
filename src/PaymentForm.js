@@ -48,7 +48,7 @@ const paymentPosts = [
 
 export default function PaymentForm(props) {
   const classes = useStyles();
-  const [valuePayment, setValuePayment] = React.useState('LinePay');
+  const [valuePayment, setValuePayment] = React.useState('Line Pay');
   const handleChangePayment = (event) => {
     setValuePayment(event.target.value);
   };
@@ -63,18 +63,32 @@ export default function PaymentForm(props) {
   const  [pickmoney, setPickmoney] =  useState([]);
   const  [paymentInformation, setPaymentInformation] =  useState([]);
   const { id } = useParams();
-
+  const  [buyCart, setBuyCart] =  useState([]);
   useEffect(() => {
     async function fetchData () {  
       console.log ("id:"+id);
       const result = await axios.get('/Checkout/'+id);
+      const buyCart = await axios.get('/Review/'+id);
       console.log ("result:"+result.data);
       console.log(result.data);
       setPickmoney(result.data); 
+      setBuyCart(buyCart.data);
     }
     fetchData();
   },[]);
 
+  let money = 0;
+  for(var i=0;i<buyCart.length;i++){
+    money+=buyCart[i].productPrice*buyCart[i].quantity;   
+  }
+  let usePickmoneyPrice = 0;
+    if(money>=100 && pickmoney.pickmoney <= 10*(Math.floor(money/100))){
+      usePickmoneyPrice = pickmoney.pickmoney; 
+    }else if(money>=100 && pickmoney.pickmoney > 10*(Math.floor(money/100))){
+      usePickmoneyPrice = 10*(Math.floor(money/100));
+    }else{
+      usePickmoneyPrice = 0;
+    }
   function send(){
     console.log ("valuePayment in send:"+valuePayment);
     console.log ("valueCoupon in send:"+valueCoupon);
@@ -96,7 +110,7 @@ export default function PaymentForm(props) {
           <FormControl component="fieldset">
             <RadioGroup aria-label="payment" value={valuePayment} onChange={handleChangePayment}>
               {paymentPosts.map((post) => (
-                <FormControlLabel value={post.title} control={<Radio color="primary" />} label={post.title} />
+                <FormControlLabel value={post.title} control={<Radio color="primary"/>} label={post.title} />
               ))}
             </RadioGroup>
           </FormControl>
@@ -107,7 +121,7 @@ export default function PaymentForm(props) {
           使用購物金折抵
         </Typography>
         <Typography className={classes.money}>您的賴皮購物金:{pickmoney.pickmoney}元</Typography>
-        <Typography>此筆訂單可折抵金額: 14 元</Typography>
+        <Typography>此筆訂單可折抵金額: {usePickmoneyPrice} 元</Typography>
         <main>
           <FormControl component="fieldset">
             <RadioGroup aria-label="coupon" value={valueCoupon} onChange={handleChangeCoupon}>
@@ -118,9 +132,6 @@ export default function PaymentForm(props) {
         </main>
       </div>
       <div className={classes.buttons}>
-          {/* <Button onClick={() => sendBack()} className={classes.button}>
-              Back
-            </Button> */}
           <Button
             variant="outlined"
             color="primary"

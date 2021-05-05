@@ -98,7 +98,6 @@ export default function Pickpoint() {
         const result = await axios.get('/Checkout/'+id);
         console.log ("result:"+result.data);
         console.log(result.data);
-        alert("fetched");
         setBuyerInformations(result.data);
         setPickpoint(result.data.pickpoint);
         setPickmoney(result.data.pickmoney);
@@ -142,7 +141,7 @@ export default function Pickpoint() {
       .then(res => {
         console.log(res);
         console.log(res.data);
-        alert('Successful!');
+        alert('兌換完成');
         setPickpoint(temppickpoint);
         setPickmoney(temppickmoney);
         fetchData();

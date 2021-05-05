@@ -96,10 +96,8 @@ export default function BuyerInfo() {
                             <Link to={'/ChangeInfo/'+id} >
                                 <CreateIcon fontSize="small" />修改
                                 </Link>
-                                </Typography>
-                               
+                                </Typography>                               
                         </div>
-                        {/* {InfoPosts.map((post) => ( */}
                             <List>
                                 <ListItem alignItems="flex-start">
                                     <ListItemText>
@@ -125,7 +123,6 @@ export default function BuyerInfo() {
                                     </ListItemText>
                                 </ListItem>
                             </List>
-                        {/* ))} */}
                         {buyerInformations.buyerPhone==null || buyerInformations.buyerPhone=="" ?
                         <Button
                             type="submit"

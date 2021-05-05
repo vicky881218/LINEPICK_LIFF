@@ -76,16 +76,17 @@ const sellerPost = [
 
 export default function Home() {
   const [productPosts, setProductPosts] = useState([]);
-  // const [seller, setSellerPost] = useState([]);
-
+  // const [sellerIntro, setSellerIntro] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       console.log("in Type useEffect:");
       const homeProduct = await axios.get("/Home");
+      // const seller = await axios.get("/Seller");
       console.log("homeProduct:");
       console.log(homeProduct.data);
       setProductPosts(homeProduct.data);
+      // setSellerIntro(seller.data);
       console.log("productPosts:" + productPosts);
     }
     fetchData();
