@@ -136,6 +136,10 @@ export default function Review(prop) {
       console.log("OrderItemAdd");
       console.log(res);
       console.log(res.data);
+      for(var i=0;i<buyCart.length;i++){
+      console.log("console.log(buyCart[i].cartId);"+buyCart[i].cartId);
+      axios.delete("/CartDeleted/"+buyCart[i].cartId);
+      }
     });
   }
     });
