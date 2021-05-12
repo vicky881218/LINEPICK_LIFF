@@ -141,7 +141,7 @@ export default function Pickpoint() {
       .then(res => {
         console.log(res);
         console.log(res.data);
-        alert('兌換完成');
+        // alert('兌換完成');
         setPickpoint(temppickpoint);
         setPickmoney(temppickmoney);
         fetchData();

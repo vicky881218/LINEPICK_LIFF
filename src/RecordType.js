@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around',
         overflow: 'hidden',
         padding: 20,
+        width:'70%'
     },
     cards: {
         display: 'flex',
@@ -71,17 +72,22 @@ const useStyles = makeStyles((theme) => ({
     },
     card: {
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'center',
         marginBottom: 10,
     },
     details: {
-        display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-start',
     },
     content: {
-        flex: '1 0 auto',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    content2: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
     },
     cover: {
         width: 150,
@@ -197,13 +203,9 @@ export default function RecordType() {
                     <Divider className={classes.divider} />
 
                     {orderContent.map((buyerorder) => (
-                        <div>
-                           
                                     <div className={classes.cards}>
                                         <Card className={classes.card} variant="outlined">
-
-                                            <div className={classes.details}>
-                                                <CardContent className={classes.content}>
+                                            <CardContent className={classes.content}>
                                                     <Typography variant="subtitle1" >
                                                         {<span>訂單編號: {buyerorder.orderListId}</span>}
                                                     </Typography>
@@ -213,24 +215,15 @@ export default function RecordType() {
                                                     <Typography variant="subtitle1">
                                                         {<span>總金額: {buyerorder.orderListPayment}元</span>}
                                                     </Typography>
-                                                    <div>
-                                                        {/* <Button variant="text" size="small" className={classes.buyButton} onClick={handleClickOpen}>
-                                                            再買一次
-                                                    </Button> */}
-                                                        <Button variant="text" size="small" className={classes.buyButton}>
-                                                           
-                                                        <Link to={'/OrderlistContent/' + buyerorder.orderListId}>詳細資訊</Link>
-
-                                                           
-                                                        </Button>
-                                                        {/* <Repurchase selectedValue={selectedValue} open={open} onClose={handleBuyClose} /> */}
-                                                    </div>
-                                                </CardContent>
-                                            </div>
+                                            </CardContent>
+                                            <CardContent className={classes.content2}>
+                                                    <Button variant="text" size="small" className={classes.buyButton}>
+                                                    <Link to={'/OrderlistContent/' + buyerorder.orderListId}>詳細資訊</Link>
+                                                    </Button>
+                                            </CardContent>
                                         </Card>
                                     </div>
                                 
-                        </div>
                     ))}
                 </div>
             </body >

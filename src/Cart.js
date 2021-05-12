@@ -258,9 +258,9 @@ export default function Cart() {
                 </div>
                 <Divider className={classes.divider} />
                 <Button size="large" className={classes.nextStep} onClick={final}>
-                <Link to={'/Checkout/'+id}>
+                    <Link to={'/Checkout/'+id}>
                     前往結帳
-                    <NavigateNextIcon />
+                    <NavigateNextIcon fontSize="medium"/>
                     </Link>
                 </Button>
             </div>   

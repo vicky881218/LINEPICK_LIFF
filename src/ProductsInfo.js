@@ -179,7 +179,7 @@ export default function ProductsInfo() {
       console.log ("styleValueId:"+styleValueId);
       const singleProductTotal=styleValuePrice*quantity;
       
-      const [buyerId] = useState("U03f0c8f23e837621589cd133fad12490");
+      const [buyerId] = useState("Ub19b06294bf055b1a7574919684b7c32");
       const [productId, setProductId] = useState(styleValueId);
       
   const [productName, setProductName] = useState(productItemPosts.productName);

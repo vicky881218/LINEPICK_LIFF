@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around',
         overflow: 'hidden',
         padding: 20,
+        width:'70%'
     },
     cards: {
         display: 'flex',
@@ -217,16 +218,9 @@ export default function Record() {
                                                         {<span>總金額: {buyerorder.orderListPayment}元</span>}
                                                     </Typography>
                                                     <div>
-                                                        {/* <Button variant="text" size="small" className={classes.buyButton} onClick={handleClickOpen}>
-                                                            再買一次
-                                                    </Button> */}
                                                         <Button variant="text" size="small" className={classes.buyButton}>
-                                                           
                                                         <Link to={'/OrderlistContent/' + buyerorder.orderListId}>詳細資訊</Link>
-
-                                                           
                                                         </Button>
-                                                        {/* <Repurchase selectedValue={selectedValue} open={open} onClose={handleBuyClose} /> */}
                                                     </div>
                                                 </CardContent>
                                             </div>

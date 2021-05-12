@@ -111,7 +111,7 @@ export default function RecordHeader(props) {
   };
 
   const  [buyerInformations, setBuyerInformations] =  useState([]);
-  const [buyerId]= useState("U03f0c8f23e837621589cd133fad12490");
+  const [buyerId]= useState("Ub19b06294bf055b1a7574919684b7c32");
   useEffect(() => {
     async function fetchData () {     
       const result = await axios.get('/Checkout/'+buyerId);
@@ -160,7 +160,7 @@ export default function RecordHeader(props) {
             <ShoppingCartIcon fontSize="medium" className={classes.icon} />
             </Link>
           </Button>
-          <div className={classes.buttonSecondaryFont}>賴皮指數:{buyerInformations.pickpoint}點</div>
+          {/* <div className={classes.buttonSecondaryFont}>賴皮指數:{buyerInformations.pickpoint}點</div> */}
         </div>
       </Toolbar>
       <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>

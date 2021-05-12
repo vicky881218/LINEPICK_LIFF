@@ -110,7 +110,7 @@ export default function Header2() {
   };
 
   const  [buyerInformations, setBuyerInformations] =  useState([]);
-  const [buyerId]= useState("U03f0c8f23e837621589cd133fad12490");
+  const [buyerId]= useState("Ub19b06294bf055b1a7574919684b7c32");
   useEffect(() => {
     async function fetchData () {     
       const result = await axios.get('/Checkout/'+buyerId);
@@ -189,7 +189,7 @@ export default function Header2() {
           </ListItem>
           <ListItem>
             <ListItemIcon><DescriptionIcon fontSize="medium" className={classes.drawerFont}/></ListItemIcon>
-            <ListItemText className={classes.drawerFont}><Button><Link to={'/Record/'+buyerId} >賴皮紀錄</Link></Button></ListItemText>
+            <ListItemText className={classes.drawerFont}><Button><Link to={'/BuyerAllOrderlist/'+buyerId} >賴皮紀錄</Link></Button></ListItemText>
           </ListItem>
         </List>
       </Drawer>

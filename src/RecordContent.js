@@ -25,6 +25,8 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import RecordHeader from './RecordHeader';
 import Footer from './Footer';
+import {useHistory } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -60,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'space-around',
         overflow: 'hidden',
         padding: 20,
+        width:'70%'
     },
     cards: {
         display: 'flex',
@@ -142,12 +145,15 @@ export default function Record() {
     const classes = useStyles();
     const { id } = useParams();
     const [orderContent, setOrderContent] = useState([""]);
-    
+    const [status, setStatus] = useState("");
+
     useEffect(() => {
         async function fetchData () {  
         console.log("buyerId:"+id);   
           const oneNameAllStyle = await axios.get('/OrderlistContent/'+id);
           setOrderContent(oneNameAllStyle.data);  
+          console.log("orderStatus:"+oneNameAllStyle.data[0].orderListStatus);
+          setStatus(oneNameAllStyle.data[0].orderListStatus);
           console.log("order:"+oneNameAllStyle.data[0].orderListId);
         }
         fetchData();
@@ -160,6 +166,26 @@ export default function Record() {
     };
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const history = useHistory();
+    const updateStatus = () => {
+        const orderInfo={
+            orderListId: orderContent[0].orderListId,
+            payType: orderContent[0].payType,
+            payStatus: orderContent[0].payStatus,
+            orderListStatus: "已完成",
+            orderListPayment: orderContent[0].orderListPayment,
+            orderDate: orderContent[0].orderDate,
+            pickmoneyUse: orderContent[0].pickmoneyUse,
+            buyerId: orderContent[0].buyerId
+        }
+        axios.post("/OrderStatusInReact/", orderInfo)
+        .then(res => {
+            console.log(res);
+            console.log(res.data);
+          });
+          history.push('/BuyerAllOrderlist/'+orderContent[0].buyerId);
     };
 
     //回購彈出選單
@@ -179,6 +205,85 @@ export default function Record() {
         {typeName:'已完成'},
     ]
 
+    if(status=="運送中"){
+    return (
+        <div>
+            <RecordHeader sections={sections}/>
+        <body className={classes.body}>
+            <div className={classes.container}>
+                <div className={classes.title}>
+                    <DescriptionIcon fontSize="medium" />
+                    賴皮紀錄
+                </div>
+                <Divider className={classes.divider} />
+             
+                
+                    <div>
+                        <div>
+                                <div className={classes.cards}>
+                                    <Card className={classes.card} variant="outlined">
+                                     
+                                        <div className={classes.details}>
+                                            <CardContent className={classes.content}>
+                                                <Typography variant="subtitle1" >
+                                                    {<span>訂單編號: {orderContent[0].orderListId}</span>}
+                                                </Typography>
+                                                <Typography variant="subtitle1" >
+                                                    {<span>購買日期: {orderContent[0].orderDate}</span>}
+                                                </Typography>
+                                                <Typography variant="subtitle1">
+                                                    {<span>總金額: {orderContent[0].orderListPayment}元</span>}
+                                                </Typography>
+                                                <div style={{flexDirection:'row'}}>
+                                                <div>
+                                                    <Button variant="text" size="small" className={classes.buyButton} onClick={handleClickOpen}>
+                                                        再買一次
+                                                    </Button>
+                                                    <Repurchase selectedValue={selectedValue} open={open} onClose={handleBuyClose} />
+                                                    <Button variant="text" size="small" className={classes.buyButton} onClick={updateStatus}>
+                                                        完成訂單
+                                                    </Button>
+                                                    <Repurchase selectedValue={selectedValue} open={open} onClose={handleBuyClose} />
+                                                </div>
+                                                </div>
+                                            </CardContent>
+                                        </div>
+                                    </Card>
+                                </div>   
+                          </div>
+                          {orderContent.map((buyerorder) => (
+                                    <div>
+                                        <Typography>
+                                            <ListItem className={classes.listItem} key={buyerorder.productName}>
+                                                <ListItemText primary={buyerorder.productName} secondary={buyerorder.productStyle} />
+                                                <div className={classes.priceItem}>
+                                                    <Typography variant="body2">{<span> x {buyerorder.orderItemQuantity}</span>}</Typography>
+                                                    <Typography variant="body2">{<span> $ {buyerorder.productPrice}</span>}</Typography>
+                                                </div>
+                                            </ListItem>
+                                        </Typography>
+                                    </div>
+                         ))}
+                               
+                                    <div>
+                                        <Typography>
+                                            <ListItem className={classes.listItem} key={orderContent[0].payType}>
+                                                <ListItemText primary={orderContent[0].payType} />
+                                                <div className={classes.priceItem}>
+                                                    <Typography variant="body2">{orderContent[0].payStatus}</Typography>
+                                                </div>
+                                            </ListItem>
+                                        </Typography>
+                                    </div>
+                     
+                    </div>
+                
+            </div>
+        </body >
+        <Footer title="LINE PICK" description="Wish you a wonderful day !" />
+        </div>
+    );
+}else{
     return (
         <div>
             <RecordHeader sections={sections}/>
@@ -251,4 +356,4 @@ export default function Record() {
         <Footer title="LINE PICK" description="Wish you a wonderful day !" />
         </div>
     );
-}
+}}
